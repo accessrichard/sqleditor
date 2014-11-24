@@ -4,7 +4,7 @@ define([
     'dijit/tree/ObjectStoreModel'
 ], function (declare, Observable, ObjectStoreModel) {
 
-    var FileManagerModel = declare('sqleditor/models/FileManagerStoreModel', null, { });
+    var FileManagerModel = declare('sqleditor.models.FileManagerStoreModel', null, { });
 
     /**
      * Creates an Observable ObjectStoreModel.

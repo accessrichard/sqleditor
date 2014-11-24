@@ -4,7 +4,7 @@
 
 ###Installation
 
-You will need to install 3 components to get started.
+You will need to install components from 3 package managers to get started:
 
 * The pip components from ./requirements.pip
 * The node modules from ./static/package.json

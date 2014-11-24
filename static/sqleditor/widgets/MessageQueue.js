@@ -7,9 +7,10 @@ define([
     'dojo/_base/fx'
 ], function (declare, lang, _WidgetBase, _TemplatedMixin, fx, baseFx) {
 
-    var chain;
+    var chain,
+        mixins = [_WidgetBase, _TemplatedMixin];
 
-    return declare('sqleditor.widgets.MessageQueue', [_WidgetBase, _TemplatedMixin], {
+    return declare('sqleditor.widgets.MessageQueue', mixins, {
 
         text: 'Sql Editor',
 
@@ -22,9 +23,8 @@ define([
         endColor: '#bdbcbc',
 
         /**
-         * Fades in and out any messages in the message queue
-         * until the queue is empty.
-         * Useful to indicate things like a save complete however
+         * Fades in and out any messages in the message queue until the queue
+         * is empty. Useful to indicate things like a save complete however
          * is a bad user design.
          */
         constructor: function (kwArgs) {

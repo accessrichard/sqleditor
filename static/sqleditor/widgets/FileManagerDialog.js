@@ -8,7 +8,8 @@ define([
     'dojo/when',
     'sqleditor/models/FileManagerModel',
     'dijit/TooltipDialog'
-], function (declare, Dialog, lang, _FileDialogMixin, Tree, popup, when, FileManagerModel) {
+], function (declare, Dialog, lang, _FileDialogMixin, Tree, popup, when,
+             FileManagerModel) {
 
     var isInitialized = false;
 
@@ -30,8 +31,8 @@ define([
         onTreeRefresh: null,
 
         /**
-         * A File Manager Dialog that allows users
-         * to create, save and delete files and folders.
+         * A File Manager Dialog that allows users to create, save and delete
+         * files and folders.
          * @param {Object} kwArgs Keyword Args
          */
         constructor: function (kwArgs) {
@@ -44,9 +45,8 @@ define([
         },
 
         /**
-         * OnShow and onTreeRefresh callback can be defined
-         * in order to refresh the tree store data and sync
-         * it with the server.
+         * OnShow and onTreeRefresh callback can be defined in order to refresh
+         * the tree store data and sync it with the server.
          */
         _onShow: function () {
             var that = this;

@@ -18,8 +18,8 @@ $ . venv/bin/activate
 (venv)$ cd static
 (venv)$ bower install
 (venv)$ npm install
-(venv)$ mv bower_modules ..
-(venv)$ mv npm_modules ..
+(venv)$ mv bower_modules/* ..
+(venv)$ mv npm_modules/* ..
 ```
 
 Once all components are installed you may need to tweak config.py

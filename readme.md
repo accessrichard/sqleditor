@@ -28,5 +28,5 @@ to configure some databases and a valid ALLOWABLE_PATH.
 Then start the dev server with:
 
 ```bash
-$ python sqleditor.py
+(venv)$ python sqleditor.py
 ```

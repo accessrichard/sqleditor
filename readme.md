@@ -11,13 +11,13 @@ You will need to install 3 components to get started.
 * The bower components from ./static/bower.json
 
 ```bash
-$pip install virtualenv
-$virtualenv venv
+$ pip install virtualenv
+$ virtualenv venv
 $ . venv/bin/activate
-$pip install -r requirements.pip
-$cd static
-$bower install
-$npm install
-$mv bower_modules ..
-$mv npm_modules ..
+$ pip install -r requirements.pip
+$ cd static
+$ bower install
+$ npm install
+$ mv bower_modules ..
+$ mv npm_modules ..
 ```

@@ -26,8 +26,7 @@ define([
     return {
 
         /**
-         * Base64 encodes a string.
-         * Uses window.btoa if present, otherwise
+         * Base64 encodes a string. Uses window.btoa if present, otherwise
          * defaults to dojo implementation for IE8/9.
          * @param {String} str The string to encode.
          * @returns {String} The encoded string.
@@ -54,4 +53,3 @@ define([
         }
     };
 });
-

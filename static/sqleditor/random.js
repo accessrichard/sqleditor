@@ -5,9 +5,8 @@ define([], function () {
     return {
 
         /**
-         * Gets a random decimal between 0 and 1.
-         * Uses window.crypto or msCrypto if exists to generate
-         * the random value. 
+         * Gets a random decimal between 0 and 1. Uses window.crypto or 
+         * msCrypto if exists to generate the random value. 
          * @returns {Number} A random number.
          */
         getRandom: function () {
@@ -54,4 +53,3 @@ define([], function () {
         }
     };
 });
-

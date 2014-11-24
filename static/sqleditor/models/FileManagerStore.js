@@ -220,7 +220,7 @@ define([
          * the server creates it. Unfortunately, the Tree._itemsNodeMap gets 
          * notified of the pre-server data without the id.
          * 
-         * This method willn post data to the server and then call 
+         * This method will post data to the server and then call 
          * store.add(data, options['observe'] = true)) so that store.add
          * can be observed with the id, and then suppressed.
          * @param {} object The item to add.

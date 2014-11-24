@@ -17,8 +17,8 @@ define([
         },
 
         /**
-         * Highlights the tree node for a file
-         * and opens it in an editor tab page.
+         * Highlights the tree node for a file and opens it in an editor tab 
+         * page.
          * @param {String} id The file id.
          * @param {String} system The database system.
          */

@@ -1,0 +1,48 @@
+from datetime import timedelta
+import os
+
+class Config(object):
+    DEBUG = False
+    TESTING = False
+    SECRET_KEY = os.urandom(64)
+    DATABASE_URI = ''
+    SESSION_TYPE = 'filesystem'
+    SESSION_KEY_PREFIX = 'sqleditor'
+    PERMANENT_SESSION_LIFETIME = timedelta(days=1)
+    ALLOWABLE_PATH = '~/test' #Change this.
+    ALLOWABLE_EXTS = ['.sql']
+    DATABASE_LIMIT = 300
+    DATABASES = {
+        'sqlite': {
+            'db_type': 'sqlite',
+            'requires_auth': False,
+            'connection': './tests/test.db'
+        }
+        # 'MySql': {
+        #     'db_type': 'mysql',
+        #     'requires_auth': True,
+        #     'connection': {
+        #         'host': '127.0.0.1',
+        #         'user': '{username}',
+        #         'passwd': '{password}',
+        #         'db': 'test'
+        #     }
+        # },
+        # 'PostgreSql': {
+        #     'db_type': 'postgresql',
+        #     'requires_auth': True,
+        #     'connection': "host='localhost' dbname='test' user='{username}' password='{password}'"
+        # }
+    }
+
+
+class ProductionConfig(Config):
+    DATABASE_URI = ''
+
+
+class DevelopmentConfig(Config):
+    DEBUG = True
+
+
+class TestingConfig(Config):
+    TESTING = True

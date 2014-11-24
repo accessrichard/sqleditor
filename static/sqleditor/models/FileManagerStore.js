@@ -26,18 +26,17 @@ define([
         /**
          * A combination of a Cache, JsonRest, and Memory store.
          *
-         * xhr -> Handles populating the Memory store and 
-         * get/delete/put/add requests.
+         * xhr -> Handles populating the Memory store and get/delete/put/add 
+         * requests.
          * 
          * Memory -> Handles query requests
          *
-         * All succesful xhr POST/PUT/DELETE requests are propogated
-         * to the Memory store.
+         * All succesful xhr POST/PUT/DELETE requests are propogated to the
+         * Memory store.
          * 
-         * Methods putItem and addItem are present in order
-         * to bypass the observable functionality of the Tree.
-         * For example, for each PUT request, we do not want to notify
-         * the tree. 
+         * Methods putItem and addItem are present in order to bypass the 
+         * observable functionality of the Tree. For example, for each PUT 
+         * request, we do not want to notify the tree. 
          * @param {Object} kwArgs Keyword Arguments
          * @constructor
          */

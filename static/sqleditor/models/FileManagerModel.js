@@ -8,9 +8,9 @@ define([
 
     /**
      * Creates an Observable ObjectStoreModel.
-     * @param {} store The tree store.
-     * @param {} rootQuery The root query for the tree store.
-     * @returns {} The ObjectStoreModel(Observable(store));
+     * @param {Memory || FileManagerStore} store The tree store.
+     * @param {Object} rootQuery The root query for the tree store.
+     * @returns {ObjectStoreModel} The ObjectStoreModel(Observable(store));
      */
     FileManagerModel.createModel = function (store, rootQuery) {
 
@@ -31,7 +31,7 @@ define([
      * This model needs to be shared amongst
      * the file manager dialog and the file navigator
      * in the main window.
-     * @returns {} The FileManagerModel.
+     * @returns {ObjectStoreModel} The file manager tree model.
      */
     FileManagerModel.getModel = function () {
         if (!FileManagerModel.model) {

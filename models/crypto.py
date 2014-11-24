@@ -1,6 +1,7 @@
 """
-Taken from:
+This file was copied and pasted from the following repository:
   https://github.com/elasticsales/flask-common/tree/master/flask_common
+
 As referenced on stackoverflow:
   http://stackoverflow.com/questions/12524994/encrypt-decrypt-using-pycrypto-aes-256
 """
@@ -69,4 +70,3 @@ def aes_decrypt_iv(key, data, iv):
     ctr = Counter.new(128, initial_value=initial_value)
     plain = AES.new(aes_key, AES.MODE_CTR, counter=ctr).decrypt(cipher)
     return plain
-

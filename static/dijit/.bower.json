@@ -1,0 +1,15 @@
+{
+  "name": "dijit",
+  "homepage": "https://github.com/dojo/dijit",
+  "version": "1.10.2",
+  "_release": "1.10.2",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.10.2",
+    "commit": "50a95d635e3902a0e66c698de4d0971adb771bc5"
+  },
+  "_source": "git://github.com/dojo/dijit.git",
+  "_target": "~1.10.2",
+  "_originalSource": "dijit",
+  "_direct": true
+}

@@ -1,0 +1,7 @@
+{
+	"browser": true,
+	"sloppy": true,
+	"maxlen": 120,
+	"indent": 4,
+	"globals": 'required, define'
+}

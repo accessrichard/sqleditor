@@ -1,0 +1,105 @@
+﻿body, html {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.CodeMirror pre {
+    font-size: 1.3em;
+}
+
+.cm-s-default .cm-keyword {
+    font-weight: bold;
+}
+.gridPane {
+    height: 50px;
+    width: 100%;
+}
+
+.dgrid {
+    height: 100%;
+    width: 100%;
+}
+
+.field_header_rownum {
+    display: none;
+}
+
+.dgrid-scroller {
+    overflow-x: scroll;    
+}
+
+.dgrid-cell {
+    width: 75px;
+}
+
+.dgrid-row-odd {
+    background: #F2F5F9;
+}
+
+#body-section {
+    width: 100%;
+    height: 95%;
+}
+
+#borderContainer { 
+    width:100%; 
+    height:100% 
+}
+
+#footer {
+    clear: both;
+    position: relative;
+}
+
+#footer-logo {
+    float: left;
+    font-weight: bold;
+    font-size: 1.3em;
+    letter-spacing: -.02em;
+    color: #bdbcbc;
+    padding: 5px;
+    font-family: Helvetica,Arial;
+}
+
+#footer-controls {
+    float: right;
+    padding-right: 15px;
+}
+
+.max {
+  width: 100%;
+  height: 100%;
+}
+
+.right {
+  float: right;
+}
+
+.tabcontent {
+  width: 100%;
+  height: 47%;
+}
+
+.messages {
+  width: 100%;
+  height: 4%;
+}
+
+.dijitTabContainerTopChildWrapper {
+  height: 100%;
+}
+
+#leftAccordion {
+  width: 200px;
+}
+
+.error {
+    color: #d46464;
+}
+
+.center {
+    margin: 0 auto;
+    display: table;
+}

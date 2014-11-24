@@ -1,0 +1,69 @@
+<div class="dijitDialog" role="dialog" aria-labelledby="${id}_title">
+  <div data-dojo-attach-point="titleBar" class="dijitDialogTitleBar">
+    <span data-dojo-attach-point="titleNode" 
+	  class="dijitDialogTitle" 
+	  id="${id}_title"
+	  role="heading" level="1"></span>
+    <span data-dojo-attach-point="closeButtonNode" 
+	  class="dijitDialogCloseIcon" 
+	  data-dojo-attach-event="ondijitclick: onCancel" 
+	  title="${buttonCancel}" 
+	  role="button" 
+	  tabindex="-1">
+      <span data-dojo-attach-point="closeText" 
+	    class="closeText" 
+	    title="${buttonCancel}">x</span>
+    </span>
+  </div>
+  <div data-dojo-attach-point="containerNode" class="dijitDialogPaneContent">
+    <div class="dijitDialogPaneContentArea">
+      <div>Path:<span data-dojo-attach-point="textFileDialogPath"></span></div>
+      <input data-dojo-type="dijit/form/ValidationTextBox" 
+	     name="filename" 
+	     disabled="disabled"
+	     data-dojo-attach-point="textboxFileName"
+	     data-dojo-props="pattern:'^[a-zA-Z0-9_ ]*$', tooltipPosition: ['before', 'above', 'below', 'after'], invalidMessage:'Filename must be alphanumeric without an extension.'"
+	     data-dojo-attach-event="onKeyUp:textboxFileNameOnChange"/>
+
+      <button data-dojo-type="dijit/form/Button" 
+	      data-dojo-attach-point="buttonSave"
+	      disabled="disabled"
+	      data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconSave', showLabel: false" 
+	      data-dojo-attach-event="onClick:buttonSaveClick" type="submit">Save</button>
+      <button data-dojo-type="dijit/form/Button" 
+	      data-dojo-attach-point="deleteButton"
+	      disabled="disabled"
+	      data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconDelete', showLabel: false" 
+	      data-dojo-attach-event="onClick:buttonDeleteClick">Delete</button>
+      <div data-dojo-type="dijit/form/DropDownButton"
+	   disabled="disabled"
+	   title="New Folder"
+	   data-dojo-attach-point="dropDownNewFolder"
+	   data-dojo-attach-event="onClick:dropDownNewFolderClick"
+	   data-dojo-props="iconClass:'dijitTreeExpando dijitTreeExpandoClosed', showLabel: false">
+	<div data-dojo-type="dijit/TooltipDialog"
+	     data-dojo-attach-point="newFolderTooltipDialog">
+	  <div>Create New Folder:<span data-dojo-attach-point="newFolderPath"></span></div>
+	  <label for="foldername">Name:</label>
+	  <input data-dojo-type="dijit/form/ValidationTextBox" 
+		 name="foldername" 
+		 data-dojo-attach-point="textboxFolderName"
+		 data-dojo-props="pattern:'^[a-zA-Z0-9_ ]*$', tooltipPosition: ['before', 'above', 'below', 'after'], invalidMessage:'Folder name must be alphanumeric.'"
+		 data-dojo-attach-event="onKeyUp:textboxFolderNameOnChange"/>
+	  <button data-dojo-type="dijit/form/Button" 
+		  data-dojo-attach-point="newFolderSubmit"
+		  disabled="disabled"
+		  data-dojo-attach-event="onClick:buttonNewFolderClick"
+		  type="submit">Ok</button>
+	</div>
+      </div>
+    </div> 
+    <div style="height:260px; overflow: auto;">
+      <div id="fileManagerTree"></div>
+    </div>
+  </div>
+  ${!actionBarTemplate}
+</div>
+
+
+

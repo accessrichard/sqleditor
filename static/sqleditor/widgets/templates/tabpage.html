@@ -1,0 +1,25 @@
+<div class="max">
+  <div data-dojo-type="dijit/layout/BorderContainer"
+       data-dojo-props="design:'sidebar', gutters:true, liveSplitters:true"
+       data-dojo-attach-point="tabPageBorderContainer"
+       class="max">
+    <div data-dojo-type="dijit/layout/ContentPane"
+         data-dojo-props="region:'top', splitter:true"
+         data-dojo-attach-point="contentPaneEditor"
+         class="tabcontent">
+      <textarea data-dojo-type="sqleditor.widgets.SqlCodeMirror" 
+	        data-dojo-attach-point="editor"></textarea> 
+    </div>
+    <div data-dojo-type="dijit/layout/ContentPane" 
+         data-dojo-props="region:'center', splitter:true" 
+         data-dojo-attach-point="contentPaneGrid"
+         class="tabcontent">
+      <div data-dojo-attach-point="gridNode" class="max"></div>
+    </div>
+    <div data-dojo-type="dijit/layout/ContentPane" 
+         data-dojo-props="region:'bottom', splitter:true" 
+         data-dojo-attach-point="contentPaneBottom"
+         class="messages">
+    </div>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+<div>
+  <div data-dojo-type="dijit/form/Form" 
+       data-dojo-attach-point="formLogin"
+       encType="multipart/form-data" action="" method="">
+    <table>
+      <tr>
+        <td>User Name</td>
+        <td>
+	  <input data-dojo-type="dijit/form/ValidationTextBox" 
+	         name="username" 
+	         data-dojo-attach-point="textboxUsername"
+                 required="true"/>
+        </td>
+      </tr>
+      <tr>
+        <td>Password</td>
+        <td>
+	  <input data-dojo-type="dijit/form/ValidationTextBox" 
+		 name="password" 
+		 data-dojo-attach-point="textboxPassword"
+                 type="password"
+                 required="true"/>
+        </td>
+      </tr>
+      <tr>
+        <td>System</td>
+        <td>
+	<select data-dojo-type="dijit/form/Select"
+                style="width: 99%" 
+		data-dojo-props="readOnly:true"
+		name="system"
+		data-dojo-attach-point="comboBoxSystems"></select>
+        </td>
+      </tr rowspan="2">
+      <tr>
+        <td colspan="2">
+          <div data-dojo-attach-point="formErrors" class="error"></div>
+        </td>
+      </tr>
+  </div>
+</div>

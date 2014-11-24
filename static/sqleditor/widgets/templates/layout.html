@@ -1,0 +1,75 @@
+<div class="max">
+  <div data-dojo-type="dijit/layout/BorderContainer" 
+       data-dojo-props="gutters:true, liveSplitters:true, design:'sidebar'" 
+       class="max">
+    <div data-dojo-type="dijit/layout/AccordionContainer" 
+	 data-dojo-props="minSize:20, region:'left', splitter:true"
+	 id="leftAccordion">
+      <div data-dojo-type="dijit/layout/ContentPane" title="File Manager"> 
+	<div id="fileTree"></div>
+      </div>
+    </div>
+    <div data-dojo-type="dijit/layout/TabContainer"
+	 data-dojo-props="region:'center', splitter:true"
+	 data-dojo-attach-point="tabContainer"
+	 class="tabcontent">
+    </div>
+    <div data-dojo-type="dijit/layout/ContentPane"
+	 data-dojo-props="region:'bottom', splitter:false">
+      <span data-dojo-type="sqleditor/widgets/MessageQueue"
+         data-dojo-attach-point="messageQueue" 
+         id="footer-logo">
+	Sql Editor
+      </span>
+      <div class="right">
+	<select data-dojo-type="dijit/form/Select"
+                style="width: 150px",
+		data-dojo-attach-event="onChange:comboboxSystemsOnChange"
+		name="systems"
+		data-dojo-attach-point="comboBoxSystems"></select>
+        <div data-dojo-type="dijit.form.ComboButton"
+	     data-dojo-attach-point="buttonRun"
+	     data-dojo-attach-event="onClick:buttonRunClick"
+             data-dojo-props="optionsTitle:'Query Options',
+                              iconClass:'dijitIconDatabase', 
+                              showLabel:true">
+          <span>Run</span>
+          <div data-dojo-type="dijit.Menu">
+            <div data-dojo-type="dijit.MenuItem"
+		 data-dojo-attach-event="onClick:buttonSaveClick"
+		 data-dojo-attach-point="buttonSave"
+                 data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconSave'">
+              <span>Save</span>
+            </div>
+            <div data-dojo-type="dijit.MenuItem"
+                 data-dojo-attach-event="onClick:buttonLinkClick"
+		 data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCreateLink'"
+                 data-dojo-attach-point="buttonLink">
+              <span>Link</span>
+            </div>
+            <div data-dojo-type="dijit.MenuItem"
+                 data-dojo-attach-event="onClick:buttonLogoutClick"
+		 data-dojo-props="iconClass:'dijitIconClear'"
+                 data-dojo-attach-point="buttonLogout">
+              <span>Logout</span>
+            </div>
+            <div data-dojo-type="dijit.MenuItem"
+                 data-dojo-attach-event="onClick:buttonLoginClick"
+		 data-dojo-props="iconClass:'dijitIconUsers'"
+                 data-dojo-attach-point="buttonLogin">
+              <span>Login</span>
+            </div>
+
+            <div data-dojo-type="dijit.MenuItem"
+                 data-dojo-attach-event="onClick:buttonNewClick"
+		 data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconNewPage', showLabel: true"
+	         data-dojo-attach-event="onClick:buttonNewClick"
+                 data-dojo-attach-point="buttonNew">
+              <span>New</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

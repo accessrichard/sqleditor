@@ -33,10 +33,8 @@ define([
      */
     FileManagerModel.getModel = function () {
         if (!FileManagerModel.model) {
-            FileManagerModel.createModel();
+            throw "Please initialize the model first with FileManagerModel.createModel(store, rootQuery)"
         }
-
-        return FileManagerModel.model;
     };
 
     return FileManagerModel;

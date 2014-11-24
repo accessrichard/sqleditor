@@ -8,14 +8,17 @@ define([
         buttonSaveClick: function () {
         },
 
-        comboboxOnChange: function () {
-        },
-
         buttonRunClick: function () {
         },
 
         buttonNewClick: function () {
-        }
+        },
+  
+        buttonLogoutClick: function () {
+        },
+        
+        comboboxSystemsOnChange: function () {
+        },
 
     });
 });

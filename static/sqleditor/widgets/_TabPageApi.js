@@ -18,7 +18,7 @@ define([
         },
         
         comboboxSystemsOnChange: function () {
-        },
+        }
 
     });
 });

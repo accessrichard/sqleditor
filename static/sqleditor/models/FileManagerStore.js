@@ -191,8 +191,8 @@ define([
         },
 
         /**
-         * Same as this.add but not observed and therefore
-         * does not change the dijit tree.
+         * Same as this.add but not observed and therefore does not change the
+         * dijit tree.
          * @param {Object} object The item to add.
          * @param {Object} options The XHR options.
          * @returns {Promise->Object} The item added.
@@ -202,8 +202,8 @@ define([
         },
 
         /**
-         * Same as this.put but not observed and therefore
-         * does not change the dijit tree.
+         * Same as this.put but not observed and therefore does not change the
+         * dijit tree.
          * @param {Object} object The item to add.
          * @param {Object} options The XHR options.
          * @returns {Promise->Object} The item added.
@@ -215,15 +215,13 @@ define([
         },
 
         /**
-         * Adds a file or folder.
-         * When a tree store is wrapped in an observable
-         * any store.add(data) calls are intercepted and dispatched
-         * to observers. In the case of a POST operation, 
-         * data wont have an id as the server creates it.
-         * Unfortunately, the Tree._itemsNodeMap gets notified of the 
-         * pre-server data without the id.
+         * Adds a file or folder. When a tree store is wrapped in an observable
+         * any store.add(data) calls are intercepted and dispatched to 
+         * observers. In the case of a POST operation, data wont have an id as 
+         * the server creates it. Unfortunately, the Tree._itemsNodeMap gets 
+         * notified of the pre-server data without the id.
          * 
-         * This method will post data to the server and then call 
+         * This method willn post data to the server and then call 
          * store.add(data, options['observe'] = true)) so that store.add
          * can be observed with the id, and then suppressed.
          * @param {} object The item to add.

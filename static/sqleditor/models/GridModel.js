@@ -11,9 +11,9 @@ define([
         target: '/query',
 
         /**
-         * Applies column formatters to the grid columns.
-         * The formatters are returned by the server and
-         * applied via sqleditor/models/columnFormatters.
+         * Applies column formatters to the grid columns. The formatters are 
+         * returned by the server and applied via 
+         * sqleditor/models/columnFormatters.
          * @param {Array} columns The grid columns.
          * @returns {Array} The formatter columns.
          */

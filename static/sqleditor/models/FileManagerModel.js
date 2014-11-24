@@ -27,10 +27,8 @@ define([
     };
 
     /**
-     * Gets the file tree model.
-     * This model needs to be shared amongst
-     * the file manager dialog and the file navigator
-     * in the main window.
+     * Gets the file tree model. This model needs to be shared amongst
+     * the file manager dialog and the file navigator in the main window.
      * @returns {ObjectStoreModel} The file manager tree model.
      */
     FileManagerModel.getModel = function () {

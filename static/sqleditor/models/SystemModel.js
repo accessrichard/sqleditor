@@ -6,8 +6,7 @@ define([
     return declare('sqleditor/models/SystemModel', null, {
 
         /**
-         * Gets a list of database systems
-         * for use in a combobox.
+         * Gets a list of database systems for use in a combobox.
          * @returns {Promise->Object} 
          */
         getModel: function () {

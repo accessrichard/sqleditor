@@ -21,3 +21,12 @@ $ npm install
 $ mv bower_modules ..
 $ mv npm_modules ..
 ```
+
+Once all components are installed you may need to tweak config.py
+to configure some databases and a valid ALLOWABLE_PATH.
+
+Then start the dev server with:
+
+```bash
+$ python sqleditor.py
+```

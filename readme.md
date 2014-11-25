@@ -58,7 +58,7 @@ http://slproweb.com/products/Win32OpenSSL.html
 ```
 >easy_install http://www.voidspace.org.uk/downloads/pycrypto26/pycrypto-2.6.win32-py2.7.exe
 ```
-* git clone or download the sqleditor from GitHub. Then extract it where you created your virtualenv.
+* git clone or download this project. Then extract it where you created your virtualenv.
 ```
 >cd static
 >npm install intern

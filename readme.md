@@ -48,13 +48,13 @@ Then start the dev server with:
 ```
 >virtualenv venv
 >venv\scripts\activate
->pip install -r requirements-windows.pip
+(venv)>pip install -r requirements-windows.pip
 ```
 * Download and install Win32 OpenSSL v1.0.1j from:
 http://slproweb.com/products/Win32OpenSSL.html
 * Install pyCrypto:
 ```
->easy_install http://www.voidspace.org.uk/downloads/pycrypto26/pycrypto-2.6.win32-py2.7.exe
+(venv)>easy_install http://www.voidspace.org.uk/downloads/pycrypto26/pycrypto-2.6.win32-py2.7.exe
 ```
 * Download or git clone this project and extract it to the location you created the virtual env.
 ```

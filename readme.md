@@ -30,19 +30,17 @@ Then start the dev server with:
 ####Detailed installation instructions on Windows:
 * Install python 2.7 from: https://www.python.org/downloads/
 * Add c:\python27 to your path. 
-  * This can be done via Start -> Search bar and typing Environment Variables.
 * Install node.js from: http://nodejs.org/download/ 
 * Fix NPM missing folder error:
 ```
 >mkdir %appdata%\npm
 ```
-* Navigate to: https://pip.pypa.io/en/latest/installing.html and download get-pip.py
+* Download get-pip.py from https://pip.pypa.io/en/latest/installing.html
 * Execute:
 ```
 > python get-pip.py
 ```
-* Add C:\Python27\Scripts and C:\Python27\Lib\site-packages to your path.
-* Execute:
+* Add C:\Python27\Scripts and C:\Python27\Lib\site-packages to your path. Then execute:
 ```
 >pip install virtualenv
 ```
@@ -58,12 +56,12 @@ http://slproweb.com/products/Win32OpenSSL.html
 ```
 >easy_install http://www.voidspace.org.uk/downloads/pycrypto26/pycrypto-2.6.win32-py2.7.exe
 ```
-* git clone or download this project. Then extract it where you created your virtualenv.
+* Download or git clone this project and extract it to the location you created the virtual env.
 ```
 >cd static
 >npm install intern
 ```
-* Download and install Git. Then add the Git.exe path to your environment variable. Bower needs Git to work.
+* Bower has git as a dependency so make sure it is installed and added to the PATH.
 * Execute to install bower globally.
 ```
 >npm install bower -g

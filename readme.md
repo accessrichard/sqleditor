@@ -34,9 +34,9 @@ Then start the dev server with:
  * This can be done via Start -> Search bar and typing Environment Variables.
 3. Install node.js from: http://nodejs.org/download/ 
 4. Fix NPM missing folder error:
-```
->mkdir %appdata%\npm
-```
+  ```
+  >mkdir %appdata%\npm
+  ```
 5. Navigate to: https://pip.pypa.io/en/latest/installing.html
  * download get-pip.py
 6. Execute :

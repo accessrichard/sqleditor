@@ -9,7 +9,7 @@ class Config(object):
     SESSION_TYPE = 'filesystem'
     SESSION_KEY_PREFIX = 'sqleditor'
     PERMANENT_SESSION_LIFETIME = timedelta(days=1)
-    ALLOWABLE_PATH = '~/test' #Change this.
+    ALLOWABLE_PATH = os.path.join(os.getcwd(), 'tests', 'filemanager')
     ALLOWABLE_EXTS = ['.sql']
     DATABASE_LIMIT = 300
     DATABASES = {

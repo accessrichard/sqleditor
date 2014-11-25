@@ -19,6 +19,8 @@ define([
          */
         file: null,
 
+	mode: 'text/x-sql',
+
         _setFileAttr: function (name) {
             this._set('file', name);
         },

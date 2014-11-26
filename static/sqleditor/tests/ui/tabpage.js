@@ -15,12 +15,6 @@ define([
 
     return declare('sqleditor.tests.ui.tabpage', [_LayoutMixin, _TabPageApi], {
 
-        buttonLogoutClick: function () {
-        },
-
-        comboboxSystemsOnChange: function () {
-        },
-
         buttonNewClick: function () {
             var page = new TabPage();
             page.set('title', 'hello');

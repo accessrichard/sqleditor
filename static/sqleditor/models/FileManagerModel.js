@@ -32,10 +32,6 @@ define([
      * @returns {ObjectStoreModel} The file manager tree model.
      */
     FileManagerModel.getModel = function () {
-        if (!FileManagerModel.model) {
-            FileManagerModel.createModel();
-        }
-
         return FileManagerModel.model;
     };
 

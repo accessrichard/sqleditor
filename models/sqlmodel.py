@@ -205,7 +205,7 @@ def add_limit_clause(sql, limit=300, isFetch=True, delimeter=';'):
 
     produces:
 
-     "select * from person;
+     "select * from person limit 300;
       select * from person limit 10000;
       select * from person limit 300;"
 

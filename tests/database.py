@@ -14,7 +14,7 @@ class Mysql(unittest.TestCase):
 
     def create_table(self):
         sql = """
-         CREATE TABLE IF NOT EXISTS `person_test` (
+         CREATE TABLE IF NOT EXISTS `person` (
         `id` int(11) NOT NULL AUTO_INCREMENT,
         `first_name` varchar(40) DEFAULT NULL,
         `last_name` varchar(40) DEFAULT NULL,

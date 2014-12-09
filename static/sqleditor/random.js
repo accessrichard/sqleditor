@@ -32,8 +32,7 @@ define([], function () {
          * @returns {Number} A random number between min and max. 
          */
         getRandomInRange: function (min, max) {
-            var getRandom = func || this.getRandom;
-            return Math.floor(getRandom() * (max - min + 1) + min);
+            return Math.floor(this.getRandom() * (max - min + 1) + min);
         },
 
         /**

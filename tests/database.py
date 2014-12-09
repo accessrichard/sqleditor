@@ -34,9 +34,9 @@ class Mysql(unittest.TestCase):
 
     def insert_data(self):
         sql =  """
-        insert into person values (default, 'Test', 'Person', 'Valley View 12', 99, default);
-        insert into person values (default, 'ad', 'ddferson', 'Vy View 12', 10, default);
-        insert into person values (default, 'dad', 'addn', '12 12312', 10, null);
+        insert into person values (default, 'Test', 'Person', 'Valley View 12', default, default);
+        insert into person values (default, 'ad', 'ddferson', 'Vy View 12', null, default);
+        insert into person values (default, 'dad', 'addn', '12 12312', default, null);
         """
         self.db.insert(sql)
 

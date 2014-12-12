@@ -32,6 +32,13 @@ class Config(object):
         #     'db_type': 'postgresql',
         #     'requires_auth': True,
         #     'connection': "host='localhost' dbname='test' user='{username}' password='{password}'"
+        # },
+        # 'Sample Name': {
+        #     'db_type': 'pyodbc',
+        #     'requires_auth': True,
+        #     #One of ['fetch', 'limit', or 'top']
+        #     'fetch_type': 'fetch',
+        #     'connection': 'DSN=dnsname;UID={username};PWD={password}'
         # }
     }
 

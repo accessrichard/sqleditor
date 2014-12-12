@@ -51,7 +51,7 @@ define([
                 return {
                     store: new Memory({
                         data: data.data,
-                        idProperty: data.id
+                        idProperty: data.idField
                     }),
                     columns: that.applyFormatters(data.columns),
                     count: data.count,

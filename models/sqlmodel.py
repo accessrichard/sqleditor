@@ -127,7 +127,7 @@ def add_db_row_limit(db_type, sql, limit=300, fetch_type=None):
       limit (int): The max number of rows to fetch.
     """
     if db_type in ['mysql', 'sqlite', 'postgresql']:
-        return add_limit_clause(sql, isFetch=False, limit=limit)
+        return add_limit_clause(sql, limit)
     if db_type in ['sqlserver']:
         return add_top_clause(sql, limit)
     if db_type in ['db2i']:

@@ -1,17 +1,32 @@
 import copy
+import datetime
+import decimal
 import hashlib
 import json
 import os
 from flask import Flask, jsonify, request, Response, render_template, session
 from flask.ext.session import Session
+from flask.json import JSONEncoder
 from models import sqlmodel
 from models.database import LoginError
 from models.filemodel import FileManager
 from models import crypto
 
+class SqlEditorJsonEncoder(JSONEncoder):
+
+    def default(self, obj):
+        if isinstance(obj, decimal.Decimal):
+            return float(obj)
+
+        if isinstance(obj, datetime.date):
+            return str(obj)
+
+        return super(SqlEditorJsonEncoder, self).default(obj)
+
 
 app = Flask(__name__)
 app.secret_key = os.urandom(64)
+app.json_encoder = SqlEditorJsonEncoder
 app.config.from_object('config.DevelopmentConfig')
 Session(app)
 file_model = FileManager(app.config['ALLOWABLE_PATH'],
@@ -154,14 +169,17 @@ def query():
 
     sql = request.json.get('sql')
     limit = app.config['DATABASE_LIMIT']
+    column_limit = app.config['COLUMN_DISPLAY_LIMIT']
+    fetch_type = config['fetch_type']
     try:
-        result, description = sqlmodel.run(config, sql, limit)
+        result, description = sqlmodel.run(config, sql, limit, column_limit, fetch_type)
     except LoginError as e:
         return jsonify(message=str(e), isLoginRequired=True)
 
     return jsonify(data=result,
                    elapsed=description.elapsed,
                    count=description.rowcount,
+                   idField='id',
                    columns=[x.__dict__ for x in description.columns],
                    messages=description.message)
 

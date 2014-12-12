@@ -168,9 +168,9 @@ def query():
         return jsonify(isLoginRequired=True)
 
     sql = request.json.get('sql')
-    limit = app.config['DATABASE_LIMIT']
-    column_limit = app.config['COLUMN_DISPLAY_LIMIT']
-    fetch_type = config['fetch_type']
+    limit = app.config.get('DATABASE_LIMIT', 1000)
+    column_limit = app.config.get('COLUMN_DISPLAY_LIMIT', 200)
+    fetch_type = config.get('fetch_type')
     try:
         result, description = sqlmodel.run(config, sql, limit, column_limit, fetch_type)
     except LoginError as e:

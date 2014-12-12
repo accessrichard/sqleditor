@@ -36,7 +36,7 @@ def run(config, sql, row_limit, column_limit, fetch_type=None):
         config['db_type'], remove_comments(sql), row_limit, fetch_type)
     results, description = get_database(config).query(cleansql)
 
-   if len(description.columns) > column_limit:
+    if len(description.columns) > column_limit:
         set_column_hidden_attribute(column_limit, description.columns)
 
     if not [x.field for x in description.columns if x.field == 'id']:
@@ -259,6 +259,7 @@ def add_limit_clause(sql, limit=300, fetch_type='limit', delimeter=';'):
       sql (str): The sql statement.
       limit (int): The row number limit.
       fetch_type (str): Whether to use the LIMIT or FETCH FIRST syntax.
+      delimeter (str): The sql delimeter.
     """
     cleansql = remove_comments(sql)
     fetch_types = {'fetch': ' fetch first {} rows only'.format(limit),

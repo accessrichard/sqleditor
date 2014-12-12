@@ -18,6 +18,11 @@ try:
 except ImportError:
     mysql = None
 
+try:
+    import pyodbc
+except ImportError:
+    pyodbc = None
+
 
 class LoginError(Exception):
     pass
@@ -46,6 +51,8 @@ class Db(object):
             return SqlServer(args, kwargs)
         elif database == 'db2i':
             return Db2i(args, kwargs)
+        elif database == 'pyodbc':
+            return Odbc(args, kwargs)
         raise TypeError('Invalid Database')
 
     def connect(self):
@@ -197,6 +204,22 @@ class SqlLite(Db):
         return False
 
 
+class Odbc(Db):
+
+    def __init__(self, args, kwargs):
+        super(Odbc, self).__init__(pyodbc, args, kwargs)
+
+    def query(self, sql):
+        results, description = super(Odbc, self).query(sql)
+        results = [dict(zip([column.field for column in description.columns], row))
+                   for row in results]
+
+        return results, description
+
+    def get_col_descriptions(self, cursor=None):
+        return [Column(x[0], '') for x in cursor.description]
+
+
 class SqlServer(Db):
     pass
 
@@ -220,9 +243,10 @@ class Description(object):
 class Column(object):
 
     def __init__(self, field, ttype=None, formatter=None,
-                 label=None, sortable=True):
+                 label=None, sortable=True, hidden=False):
         self.field = field
         self.formatter = formatter
         self.ttype = ttype
         self.sortable = sortable
         self.label = field if label is None else label
+        self.hidden = hidden

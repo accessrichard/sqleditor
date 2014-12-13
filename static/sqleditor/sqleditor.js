@@ -4,14 +4,15 @@ require([
     'dojo/ready'
 ], function (Standby, parser, ready) {
 
-    var standby = new Standby({
-        id: document.body,
-        target : document.body
+    ready(function () {
+        var standby = new Standby({
+            id: document.body,
+            target : document.body
+        });
+        
+        document.body.appendChild(standby.domNode);
+        standby.show();
     });
-
-    document.body.appendChild(standby.domNode);
-
-    standby.show();
 
     require(['sqleditor/widgets/SqlEditor']);
 

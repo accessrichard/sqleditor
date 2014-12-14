@@ -4,8 +4,9 @@ require([
     'dojo/ready'
 ], function (Standby, parser, ready) {
 
+    var standby;
     ready(function () {
-        var standby = new Standby({
+        standby = new Standby({
             id: document.body,
             target : document.body
         });

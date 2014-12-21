@@ -10,9 +10,10 @@ define([
         cookieName: 'sqleditor',
 
         /**
-         * Creates a cookie with a random string. This is used to salt a 
-         * server side encryption key in order to store users database 
-         * credentials on a server side session.
+         * Creates a cookie with a random string.
+         * This is used to salt a server side encryption key
+         * in order to store users database credentials on a 
+         * server side session.
          */
         setCookie: function () {
             var rand = random.getRandomString(20);
@@ -46,7 +47,7 @@ define([
                 this.setCookie();
             }
 
-            return xhr('/login', {
+            return xhr('/user/login', {
                 method: 'POST',
                 data: form,
                 handleAs: 'json'
@@ -54,14 +55,15 @@ define([
         },
 
         /**
-         * Logs a user out by deleting the cookie and clearing the server 
-         * side session.
+         * Logs a user out by deleting the cookie
+         * and clearing the server side session.
          * @returns {Promise->Boolean} Whether the logout was successful.
          */
         logout: function () {
             cookie(this.cookieName, '', { expire: -1 });
 
-            return xhr('/logout', {
+            return xhr('/user/logout', {
+                method: 'POST',
                 handleAs: 'json'
             }).then(function (data) {
                 return data.isSuccess;

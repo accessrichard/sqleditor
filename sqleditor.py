@@ -96,7 +96,7 @@ def get_populated_config(config, username, password):
     return user_config
 
 
-@app.route("/login", methods=['POST'])
+@app.route("/user/login", methods=['POST'])
 def login():
     username = request.form.get('username')
     password = request.form.get('password')
@@ -117,7 +117,7 @@ def login():
     return jsonify(isSuccess=True)
 
 
-@app.route('/logout')
+@app.route('/user/logout', methods=['POST'])
 def logout():
     session.clear()
     return jsonify(isSuccess=True)
@@ -179,7 +179,7 @@ def query():
     return jsonify(data=result,
                    elapsed=description.elapsed,
                    count=description.rowcount,
-                   idField='id',
+                   idField=description.id,
                    columns=[x.__dict__ for x in description.columns],
                    messages=description.message)
 

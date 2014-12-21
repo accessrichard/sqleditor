@@ -39,10 +39,10 @@ def run(config, sql, row_limit, column_limit, fetch_type=None):
     if len(description.columns) > column_limit:
         set_column_hidden_attribute(column_limit, description.columns)
 
-    if not [x.field for x in description.columns if x.field == 'id']:
-        return add_id_field(results, description)
+    #    if not [x.field for x in description.columns if x.field == 'id']:
+    return add_id_field(results, description)
 
-    return results, description
+#    return results, description
 
 
 def set_column_hidden_attribute(column_limit, columns):
@@ -93,14 +93,13 @@ def test_connection(config):
 def add_id_field(results, description):
     """The dojo data stores are optimized for id fields.
     This allows for massive performance gains by allowing
-    virtual scrolling. If no id field exists, need to add
-    one to the result sets.
+    virtual scrolling. 
     """
-    description.columns.insert(0, Column('id', label="ID()", hidden=True))
+    description.columns.insert(0, Column('_id', label="ID()", hidden=True))
     num = 0
     for result in results:
         num += 1
-        result['id'] = num
+        result['_id'] = num
 
     return results, description
     

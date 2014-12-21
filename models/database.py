@@ -71,7 +71,7 @@ class Db(object):
             return results, Description(cols,
                                         cursor.rowcount,
                                         elapsed,
-                                        'id')
+                                        '_id')
         except Exception as e:
             if self.is_login_error(e):
                 raise LoginError(e)

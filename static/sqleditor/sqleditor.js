@@ -7,7 +7,6 @@ require([
     var standby;
     ready(function () {
         standby = new Standby({
-            id: document.body,
             target : document.body
         });
         

@@ -39,10 +39,7 @@ def run(config, sql, row_limit, column_limit, fetch_type=None):
     if len(description.columns) > column_limit:
         set_column_hidden_attribute(column_limit, description.columns)
 
-    #    if not [x.field for x in description.columns if x.field == 'id']:
     return add_id_field(results, description)
-
-#    return results, description
 
 
 def set_column_hidden_attribute(column_limit, columns):

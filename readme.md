@@ -1,6 +1,6 @@
-##Online Sql Editor
-
-####A prototype of an online Sql Editor using Python/Flask and Dojo.
+sqleditor
+=============
+An single page online sql editor with a file manager and tabbed workspaces using Python/Flask and Dojo.
 
 ###Installation
 

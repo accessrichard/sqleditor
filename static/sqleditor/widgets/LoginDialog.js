@@ -2,18 +2,17 @@ define([
     'dojo/_base/declare',
     'dojo/_base/lang',
     'dijit/ConfirmDialog',
+    'dojox/widget/Standby',
     'sqleditor/models/UserModel',
     'sqleditor/widgets/LoginDialogContent',
     'sqleditor/models/SystemModel'
-], function (declare, lang, ConfirmDialog, UserModel, LoginDialogContent, SystemModel) {
+], function (declare, lang, ConfirmDialog, Standby, UserModel, LoginDialogContent, SystemModel) {
 
     return declare('sqleditor.widgets.LoginDialog', [ConfirmDialog], {
 
         title: 'Login Required',
 
         style: 'width:275px',
-
-        systemModel: null,
 
         onLoginSuccess: null,
 
@@ -27,23 +26,8 @@ define([
             this.set('content', new LoginDialogContent({ attachScope: this }));
             this.okButton.onClick = lang.hitch(this, this.okButtonOnClick);
             this.cancelButton.onClick = lang.hitch(this, this.cancelButtonOnClick);
-            this.comboBoxSystems.set('options', this.systemModel);
             this.bindOnEnterSubmitForm();
-            this.populateSystemsComboBox();
-        },
-
-        populateSystemsComboBox: function () {
-            if (!this.systemModel) {
-                this.initSystems();
-            }
-
-            var model = new SystemModel(),
-                that = this;
-
-            model.getModel().then(function (store) {
-                that.comboBoxSystems.set('options', store);
-                that.comboBoxSystems.set('value', store[0].name);
-            });
+            this.initStandby();
         },
 
         bindOnEnterSubmitForm: function () {
@@ -53,6 +37,14 @@ define([
                     that.okButtonOnClick(e);
                 }
             });
+        },
+
+        initStandby: function () {
+            this.standby = new Standby({
+                target: this.id
+            });
+
+            document.body.appendChild(this.standby.domNode);
         },
 
         cancelButtonOnClick: function () {
@@ -76,8 +68,10 @@ define([
                 return;
             }
 
+            this.standby.show();
             form = this.formLogin.get('value');
             this.userModel.login(form).then(function (response) {
+                that.standby.hide();
                 if (response.isSuccess) {
                     that.resetForm();
                     that.hide();

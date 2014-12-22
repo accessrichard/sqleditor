@@ -5,6 +5,11 @@
     padding: 0;
 }
 
+.claro input[readonly=""],
+.claro input[readonly=""]:focus {
+    color: gray;
+}
+
 .CodeMirror pre {
     font-size: 1.3em;
 }
@@ -60,7 +65,7 @@
     letter-spacing: -.02em;
     color: #bdbcbc;
     padding: 5px;
-    font-family: Helvetica,Arial;
+    font-family: Helvetica,Arial; /*text-shadow: -.5px .5px .5px #000033;*/
 }
 
 #footer-controls {

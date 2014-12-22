@@ -103,7 +103,7 @@ define([
             this.createLoginDialog();
 
             this.loginDialog.show().then(function () {
-                that.loginDialog.comboBoxSystems.set('value', system);
+                that.loginDialog.textboxSystem.set('value', system);
             });
         },
 

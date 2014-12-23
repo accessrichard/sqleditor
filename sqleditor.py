@@ -181,7 +181,7 @@ def query():
                    count=description.rowcount,
                    idField=description.id,
                    columns=[x.__dict__ for x in description.columns],
-                   messages=description.message)
+                   message=description.message)
 
 
 @app.route("/systems", methods=['GET'])

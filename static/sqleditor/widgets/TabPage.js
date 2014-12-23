@@ -34,7 +34,7 @@ define([
             }
 
             populateGrid.call(that, data);
-            that.contentPaneBottom.set('content', data.messages);
+            that.contentPaneBottom.set('content', data.message);
             return data;
         }, function (error) {
             that.contentPaneBottom.set('content', error.response.data.message);

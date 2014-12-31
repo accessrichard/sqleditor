@@ -31,11 +31,11 @@ define([
          * @param {string} system The database system.
          * @returns {Promise->Object} The dgrid model.
          */
-        getModel: function (sql, system) {
+        getModel: function (sql, system, limit) {
             var that = this,
                 request = xhr(this.target, {
                     method: 'POST',
-                    data: JSON.stringify({ sql: sql, system: system }),
+                    data: JSON.stringify({ sql: sql, system: system, limit: limit }),
                     handleAs: 'json',
                     headers: {
                         'Content-Type': 'application/json',

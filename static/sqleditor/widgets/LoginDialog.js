@@ -84,6 +84,8 @@ define([
 
                 that.formErrors.innerHTML = response.message;
                 return false;
+            }, function () {
+                that.standby.hide();
             });
         }
     });

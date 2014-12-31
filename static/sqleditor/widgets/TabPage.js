@@ -25,10 +25,10 @@ define([
         domConstruct.place(this.grid.domNode, this.gridNode);
     }
 
-    function runQuery(sql, system) {
+    function runQuery(sql, system, limit) {
         var that = this;
 
-        return gridModel.getModel(sql, system).then(function (data) {
+        return gridModel.getModel(sql, system, limit).then(function (data) {
             if (data.isLoginRequired) {
                 return data;
             }
@@ -67,14 +67,14 @@ define([
             return true;
         },
 
-        execute: function (system) {
+        execute: function (system, limit) {
             var sql = this.editor.get('value'),
                 that = this;
 
             initStandby.call(this);
             this.standby.show();
 
-            return runQuery.call(this, sql, system).then(function (data) {
+            return runQuery.call(this, sql, system, limit).then(function (data) {
                 that.standby.hide();
                 return data;
             });

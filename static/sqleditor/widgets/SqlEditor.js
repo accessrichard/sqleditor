@@ -150,6 +150,7 @@ define([
         buttonRunClick: function () {
             var page = this.tabContainer.selectedChildWidget,
                 that = this,
+                limit,
                 system;
 
             if (!(page instanceof TabPage)) {
@@ -157,7 +158,8 @@ define([
             }
 
             system = this.comboBoxSystems.get('value');
-            page.execute(system).then(function (response) {
+            limit = this.numberSpinnerLimit.get('value');
+            page.execute(system, limit).then(function (response) {
                 if (response && response.isLoginRequired) {
                     loginSource = 'run';
                     that.showLoginDialog(system);

@@ -8,7 +8,7 @@ define([
 
     return declare('sqleditor/models/GridModel', null, {
 
-        target: '/query',
+        target: 'database/query',
 
         /**
          * Applies column formatters to the grid columns. The formatters are 
@@ -56,7 +56,7 @@ define([
                     columns: that.applyFormatters(data.columns),
                     count: data.count,
                     elapsed: data.elapsed,
-                    messages: data.messages
+                    message: data.message
                 };
             });
         }

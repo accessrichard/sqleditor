@@ -4,14 +4,18 @@ define([
     'dgrid/extensions/ColumnReorder',
     'dgrid/extensions/ColumnHider',
     'dgrid/extensions/Pagination',
-    'dojo/_base/declare'
-], function (Grid, ColumnResizer, ColumnReorder, ColumnHider, Pagination, declare) {
+    'dojo/_base/declare',
+    'sqleditor/models/SettingsModel'
+], function (Grid, ColumnResizer, ColumnReorder,
+             ColumnHider, Pagination, declare, SettingsModel) {
+
+    var settings = new SettingsModel();
 
     return declare([Grid, ColumnResizer, ColumnReorder, ColumnHider, Pagination], {
 
-        minRowsPerPage: 300,
+        rowsPerPage: settings.getPageSize(),
 
-        bufferRows: 30
+        pageSizeOptions: settings.getPageSizeOptions()
 
     });
 });

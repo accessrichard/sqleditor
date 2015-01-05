@@ -5,7 +5,7 @@ require([
     'dojo/_base/window',
     'dijit/form/Button',
     'dojo/domReady!'
-],function(GridModel, Grid, domConstruct, win, Button) {
+], function(GridModel, Grid, domConstruct, win) {
 
     domConstruct.create('div', { id: 'grid' }, win.body());
 

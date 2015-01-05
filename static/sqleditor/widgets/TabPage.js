@@ -4,25 +4,88 @@ define([
     'dojox/widget/Standby',
     'sqleditor/widgets/_TabPageMixin',
     'sqleditor/widgets/Grid',
+    'sqleditor/widgets/VirtualGrid',
     'sqleditor/models/GridModel',
+    'sqleditor/prettyPrint',
+    'sqleditor/models/SettingsModel',
     'sqleditor/widgets/SqlCodeMirror'
-], function (declare, domConstruct, Standby, _TabPageMixin, Grid, GridModel) {
+], function (declare, domConstruct, Standby,
+             _TabPageMixin, Grid, VirtualGrid, GridModel, prettyPrint, SettingsModel) {
 
-    var gridModel = new GridModel();
+    var gridModel = new GridModel(),
+        settings = new SettingsModel();
 
-    function populateGrid(data) {
+
+    function isGridTypeChanged() {
+        if (!this.grid) {
+            return false;
+        }
+
+        return settings.getPaginationType() !== 'virtual' && this.grid.pagingMethod;
+    }
+
+    function destroyGrid() {
         if (this.grid) {
+            this.grid.destroy();
+            this.grid = null;
+        }
+
+        domConstruct.empty(this.queryResultNode);
+    }
+
+    function renderGrid(data) {
+        var GridCls;
+        if (this.grid && !isGridTypeChanged) {
             this.grid.set('columns', data.columns);
             this.grid.set('store', data.store);
             return;
         }
 
-        this.grid = new Grid({
+        destroyGrid.call(this);
+
+        GridCls = settings.getPaginationType() === 'virtual' ? VirtualGrid : Grid;
+
+        this.grid = new GridCls({
             store: data.store,
             columns: data.columns
         });
 
-        domConstruct.place(this.grid.domNode, this.gridNode);
+        domConstruct.place(this.grid.domNode, this.queryResultNode);
+    }
+
+    function renderText(text) {
+        destroyGrid.call(this);
+        domConstruct.create('pre', {
+            innerHTML: text
+        }, this.queryResultNode);
+    }
+
+    function render(results) {
+        var format = settings.getDataFormat(),
+            data = results.store.data;
+
+        switch (format) {
+        case 'grid':
+            renderGrid.call(this, results);
+            break;
+        case 'text':
+            renderText.call(this, prettyPrint.padDelimit(data, 25, ' '));
+            break;
+        case 'tabDelimited':
+            renderText.call(this, prettyPrint.charDelimit(data, '\t'));
+            break;
+        case 'commaDelimited':
+            renderText.call(this, prettyPrint.charDelimit(data, ','));
+            break;
+        case 'pipeDelimited':
+            renderText.call(this, prettyPrint.charDelimit(data, '|'));
+            break;
+        case 'vertical':
+            renderText.call(this, prettyPrint.vertical(data));
+            break;
+        default:
+            renderGrid.call(this, results);
+        }
     }
 
     function runQuery(sql, system, limit) {
@@ -33,7 +96,7 @@ define([
                 return data;
             }
 
-            populateGrid.call(that, data);
+            render.call(that, data);
             that.contentPaneBottom.set('content', data.message);
             return data;
         }, function (error) {

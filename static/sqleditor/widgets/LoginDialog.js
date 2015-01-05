@@ -4,9 +4,8 @@ define([
     'dijit/ConfirmDialog',
     'dojox/widget/Standby',
     'sqleditor/models/UserModel',
-    'sqleditor/widgets/LoginDialogContent',
-    'sqleditor/models/SystemModel'
-], function (declare, lang, ConfirmDialog, Standby, UserModel, LoginDialogContent, SystemModel) {
+    'sqleditor/widgets/LoginDialogContent'
+], function (declare, lang, ConfirmDialog, Standby, UserModel, LoginDialogContent) {
 
     return declare('sqleditor.widgets.LoginDialog', [ConfirmDialog], {
 

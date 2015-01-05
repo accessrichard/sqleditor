@@ -19,7 +19,7 @@ define([
             var rand = random.getRandomString(20);
             //// remove illegal cookie chars
             rand = rand.replace(';', '').replace(' ', '').replace(",", '');
-            cookie("sqleditor", rand);
+            cookie(this.cookieName, rand);
         },
 
         /**

@@ -108,3 +108,17 @@
     margin: 0 auto;
     display: table;
 }
+
+.formGroup {
+    padding: 5px 3px;
+}
+
+.formGroup label {
+    font-weight: bold;
+    display: block;
+}
+
+.compact ul {
+    margin: 0px;
+    padding: 3px 20px;
+}

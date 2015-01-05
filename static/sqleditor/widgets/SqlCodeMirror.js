@@ -3,12 +3,16 @@ define([
     'dojo/_base/lang',
     'dijit/_WidgetBase',
     'codemirror/lib/codemirror',
+    'sqleditor/models/SettingsModel',
     'codemirror/mode/sql/sql',
     'codemirror/addon/search/search',
     'codemirror/addon/search/searchcursor',
     'codemirror/addon/dialog/dialog',
+    'codemirror/keymap/emacs',
     'codemirror/addon/edit/matchbrackets'
-], function (declare, lang, _WidgetBase, CodeMirror) {
+], function (declare, lang, _WidgetBase, CodeMirror, SettingsModel) {
+
+    var settings = new SettingsModel();
 
     return declare('sqleditor.widgets.SqlCodeMirror', [_WidgetBase], {
 
@@ -19,7 +23,7 @@ define([
          */
         file: null,
 
-	mode: 'text/x-sql',
+        mode: 'text/x-sql',
 
         _setFileAttr: function (name) {
             this._set('file', name);
@@ -49,6 +53,7 @@ define([
                 lineNumbers: true,
                 matchBrackets: true,
                 smartIndent: true,
+                keyMap: this.getKeyBindingSetting(),
                 extraKeys: {
                     Enter: function (cm) {
                         cm.replaceSelection('\n', 'end');
@@ -56,6 +61,10 @@ define([
                 },
                 mode: this.mode
             }, options);
+        },
+
+        getKeyBindingSetting: function () {
+            return settings.getKeyBindingType();
         },
 
         startup: function () {

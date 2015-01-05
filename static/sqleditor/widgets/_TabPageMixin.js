@@ -11,7 +11,7 @@ define([
 
     var inherited = [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin];
 
-    return declare('sqleditor/widgets/TabPage', inherited, {
+    return declare('sqleditor.widgets._TabPageMixin', inherited, {
 
         templateString: template,
 

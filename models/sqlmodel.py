@@ -31,7 +31,6 @@ def run(config, sql, row_limit, column_limit, fetch_type=None):
     if is_modify_statement(sql):
         raise Exception("Only SELECT statements supported")
 
-
     cleansql = add_db_row_limit(
         config['db_type'], remove_comments(sql), row_limit, fetch_type)
     results, description = get_database(config).query(cleansql)
@@ -86,6 +85,35 @@ def test_connection(config):
          DATABASES[system]
     """
     return get_database(config).test_connection()
+
+
+def get_database_information(config, config_query_name, params):
+    sql = config.get(config_query_name, None)
+    if not sql:
+        return []
+
+    db = get_database(config)
+    return db.execute(sql, params)
+
+
+def get_database_schemas(config, search=None):
+    search = to_wildcard(search),
+    return get_database_information(config, 'schema_query', search)
+
+
+def get_database_tables(config, schema, search=None):
+    params = schema, to_wildcard(search)
+    return get_database_information(config, 'table_query', params)
+
+
+def get_database_columns(config, schema, table, search=None):
+    params = schema, table, to_wildcard(search)
+    return get_database_information(config, 'column_query', params)
+
+
+def to_wildcard(search):
+    return '%' if not search or search == "" else '%' + search + '%'
+    
 
 def add_id_field(results, description):
     """The dojo data stores are optimized for id fields.
@@ -268,12 +296,12 @@ def add_limit_clause(sql, limit=300, fetch_type='limit', delimeter=';'):
             continue
 
         where = stmnt.token_next_by_instance(0, Where)
-        fetchpath = where if where else stmnt
-        fetch = fetchpath.token_next_match(0, Keyword, fetch_type)
-        if fetch:
+        if (where and where.token_next_match(0, Keyword, fetch_type)) or \
+           stmnt.token_next_match(0, Keyword, fetch_type):
             stmnts.append(stmnt)
             continue
 
+        fetchpath = stmnt if where is None else where
         terminator = fetchpath.token_next_match(0, Punctuation, delimeter)
         if terminator:
             fetchpath.insert_before(terminator, fetch_types[fetch_type])

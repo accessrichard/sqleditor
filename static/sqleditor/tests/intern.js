@@ -31,6 +31,7 @@ define({
 
     suites: ['sqleditor/tests/base64',
              'sqleditor/tests/random',
+             'sqleditor/tests/prettyPrinter',
              'sqleditor/tests/fileManagerStore.js'],
 
     excludeInstrumentation: /^(?:tests|node_modules)\//

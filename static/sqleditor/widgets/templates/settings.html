@@ -1,0 +1,43 @@
+<div>
+  <div class="formGroup">
+    <label for "dataFormat">Output To:</label>
+    <select data-dojo-type="dijit/form/Select"
+            id="dataFormat"
+            name="dataFormat"
+            data-dojo-props="style: {width: '100%'}"
+            data-dojo-attach-point="selectDataFormat"
+            data-dojo-attach-event="onChange:selectDataFormatOnChange">
+    </select>
+  </div>
+  <div class="formGroup">
+    <label for "paginationType">Paging Type:</label>
+    <select data-dojo-type="dijit/form/Select"
+            id="paginationType"
+            name="paginationType"
+            data-dojo-props="style: {width: '100%'}"
+            data-dojo-attach-point="selectPaginationType"
+            data-dojo-attach-event="onChange:selectPaginationTypeOnChange">
+    </select>
+  </div>
+  <div class="formGroup">
+    <label for "pageSize">Default Page Size:</label>
+        <select data-dojo-type="dijit/form/Select"
+            id="pageSize"
+            name="pageSize"
+            data-dojo-props="style: {width: '100%'}"
+            data-dojo-attach-point="selectPageSize"
+            data-dojo-attach-event="onChange:selectPageSizeOnChange">
+        </select>
+  </div>
+  <div class="formGroup">
+    <label for "keyBindings">Key Bindings:</label>
+    <select data-dojo-type="dijit/form/Select"
+            id="keyBindings"
+            name="keyBindings"
+            data-dojo-props="style: {width: '100%'}"
+            data-dojo-attach-event="onChange:selectKeyBindingsOnChange"
+            data-dojo-attach-point="selectKeyBindings">
+    </select>
+    <p>Keybindings will only take effect on new tabs.</p>
+  </div>
+</div>

@@ -2,14 +2,14 @@ define([
     'dojo/_base/declare',
     'sqleditor/widgets/_LayoutMixin',
     'sqleditor/widgets/TabPage',
-    'sqleditor/models/SystemModel',
+    'sqleditor/models/DatabaseExplorerModel',
     'sqleditor/models/FileManagerStore',
     'sqleditor/widgets/FileManagerDialog',
     'sqleditor/widgets/FileManagerTree',
     'sqleditor/models/FileManagerModel',
     'sqleditor/widgets/LoginDialog',
     'sqleditor/widgets/MessageQueue'
-], function (declare, _LayoutMixin, TabPage, SystemModel, random,
+], function (declare, _LayoutMixin, TabPage, DatabaseExplorerModel, random,
              FileManagerStore, FileManagerDialog, FileManagerTree,
              FileManagerModel, LoginDialog) {
 

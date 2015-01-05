@@ -1,0 +1,31 @@
+<div>
+  <div class="formGroup">
+    <label for "metaSystem">System:</label>
+    <select data-dojo-type="dijit/form/Select"
+            id="metaSystem"
+	    name="metaSystem"
+            data-dojo-props="style: {width: '100%'}"
+	    data-dojo-attach-point="selectSystem"
+            data-dojo-attach-event="onChange:selectSystemOnChange">
+    </select>
+  </div>
+    <div class="formGroup">
+  <label for "metaSchema">Schema:</label>
+  <input data-dojo-type="dijit/form/ComboBox"
+         id="metaSchema"
+         name="metaSchema"
+         data-dojo-props="style: {width: '100%'}, disabled:true"
+         data-dojo-attach-point="selectSchema"
+         data-dojo-attach-event="onChange:selectSchemaOnChange"/>
+    </div>
+  <div class="formGroup">
+  <label for "metaTable">Table:</label>
+  <input data-dojo-type="dijit/form/ComboBox"
+         id="metaTable"
+         name="metaTable"
+         data-dojo-props="disabled:true, style: {width: '100%'}"
+         data-dojo-attach-point="selectTable"
+         data-dojo-attach-event="onChange:selectTableOnChange"/>
+  </div>
+  <div id='columnList' class='compact'></div>
+</div>

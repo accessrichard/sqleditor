@@ -58,6 +58,26 @@ class Db(object):
     def connect(self):
         return self.db.connect(*self.args, **self.kwargs)
 
+
+    def execute(self, sql, params=None):
+        try:
+            conn, cursor = None, None
+            conn = self.connect()
+            cursor = self.get_cursor(conn)
+            cursor.execute(sql, params)
+            return cursor.fetchall()
+        except Exception as e:
+            if self.is_login_error(e):
+                raise LoginError(e)
+
+            raise e
+        finally:
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()
+
+        
     def query(self, sql):
         try:
             conn, cursor = None, None

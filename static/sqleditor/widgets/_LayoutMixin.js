@@ -11,6 +11,7 @@ define([
     'dijit/layout/AccordionPane',
     'dijit/form/Select',
     'dijit/form/ComboButton',
+    'dijit/form/NumberSpinner',
     'dijit/Menu',
     'dijit/MenuItem'
 ], function (declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, template) {

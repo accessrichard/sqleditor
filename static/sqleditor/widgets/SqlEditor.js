@@ -3,7 +3,7 @@ define([
     'dojo/_base/declare',
     'dojo/_base/lang',
     'sqleditor/Router',
-    'sqleditor/models/SystemModel',
+    'sqleditor/models/DatabaseExplorerModel',
     'sqleditor/models/UserModel',
     'sqleditor/models/FileManagerStore',
     'sqleditor/models/FileManagerModel',
@@ -13,8 +13,10 @@ define([
     'sqleditor/widgets/LoginDialog',
     'sqleditor/widgets/_LayoutMixin',
     'sqleditor/widgets/MessageQueue',
-    'sqleditor/widgets/ErrorHandler'
-], function (declare, lang, Router, SystemModel, UserModel,
+    'sqleditor/widgets/ErrorHandler',
+    'sqleditor/widgets/DatabaseExplorer',
+    'sqleditor/widgets/Settings'
+], function (declare, lang, Router, DatabaseExplorerModel, UserModel,
              FileManagerStore,  FileManagerModel, TabPage,
              FileManagerDialog, FileManagerTree, LoginDialog, _LayoutMixin) {
 
@@ -39,14 +41,13 @@ define([
             this.toggleLogoutButton();
             this.tabContainer.watch('selectedChildWidget',
                                     lang.hitch(this, this.tabContainerOnChange));
-
         },
 
         initSystems: function () {
-            var model = new SystemModel(),
+            var model = new DatabaseExplorerModel(),
                 that = this;
 
-            model.getModel().then(function (store) {
+            model.getSystemModel().then(function (store) {
                 that.comboBoxSystems.set('options', store);
                 that.comboBoxSystems.set('value', store[0].label);
             });
@@ -87,7 +88,6 @@ define([
             }
 
             this.loginDialog = new LoginDialog({
-                systemModel: this.comboBoxSystems.get('options'),
                 onLoginSuccess: lang.hitch(this, this.onLoginSuccess)
             });
         },
@@ -152,6 +152,11 @@ define([
                 that = this,
                 limit,
                 system;
+
+            if (!this.comboBoxSystems.isValid()) {
+                this.comboBoxSystems.focus();
+                return;
+            }
 
             if (!(page instanceof TabPage)) {
                 return;

@@ -1,4 +1,5 @@
 from datetime import timedelta
+import information_schema 
 import os
 
 class Config(object):
@@ -15,27 +16,31 @@ class Config(object):
     DATABASES = {
         'sqlite': {
             'db_type': 'sqlite',
-            'requires_auth': False,
+            'schema_query': information_schema.SQLITE_SCHEMA_QUERY,
+            'table_query': information_schema.SQLITE_TABLE_QUERY,
             'connection': './tests/test.db'
         }
         # 'MySql': {
         #     'db_type': 'mysql',
-        #     'requires_auth': True,
+        #     'table_query': information_schema.MYSQL_TABLE_QUERY,
+        #     'column_query': information_schema.MYSQL_COLUMN_QUERY,
+        #     'schema_query': information_schema.MYSQL_SCHEMA_QUERY,
         #     'connection': {
-        #         'host': '127.0.0.1',
+        #         'host': '192.168.0.4',
         #         'user': '{username}',
         #         'passwd': '{password}',
         #         'db': 'test'
         #     }
         # },
-        # 'PostgreSql': {
-        #     'db_type': 'postgresql',
-        #     'requires_auth': True,
-        #     'connection': "host='localhost' dbname='test' user='{username}' password='{password}'"
-        # },
+        #  'PostgreSql': {
+        #      'db_type': 'postgresql',
+        #      'table_query': information_schema.PGSQL_TABLE_QUERY,
+        #      'column_query': information_schema.PGSQL_COLUMN_QUERY,
+        #      'schema_query': information_schema.PGSQL_SCHEMA_QUERY,
+        #      'connection': "host='localhost' dbname='test' user='{username}' password='{password}'"
+        #  },
         # 'Sample Name': {
         #     'db_type': 'pyodbc',
-        #     'requires_auth': True,
         #     #One of ['fetch', 'limit', or 'top']
         #     'fetch_type': 'fetch',
         #     'connection': 'DSN=dnsname;UID={username};PWD={password}'
@@ -49,7 +54,6 @@ class ProductionConfig(Config):
 
 class DevelopmentConfig(Config):
     DEBUG = True
-
 
 class TestingConfig(Config):
     TESTING = True

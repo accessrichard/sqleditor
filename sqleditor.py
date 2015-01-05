@@ -37,6 +37,15 @@ def JsonResponse(obj):
     return Response(json.dumps(obj), mimetype='application/json')
 
 
+def is_authorization_required(system):
+    connection = app.config['DATABASES'][system]['connection']
+    if type(connection) is dict:
+        value = connection.values()
+        return '{password}' in value or '{username}' in value
+
+    return '{username}' in connection or '{password}' in connection
+    
+    
 def get_secret_key():
     user_key = request.cookies.get('sqleditor', None)
     if user_key:
@@ -64,7 +73,7 @@ def decrypt_user_config(config):
 
 def get_authorized_config(system):
     config = app.config['DATABASES'][system]
-    if not config['requires_auth']:
+    if not is_authorization_required(system):
         return config
 
     session_config = session.get(system, None)
@@ -102,7 +111,7 @@ def login():
     password = request.form.get('password')
     system = request.form.get('system')
     system_config = app.config['DATABASES'][system]
-    if not system_config['requires_auth']:
+    if not is_authorization_required(system):
         return jsonify(isSuccess=True)
 
     user_config = get_populated_config(system_config, username, password)
@@ -122,6 +131,11 @@ def logout():
     session.clear()
     return jsonify(isSuccess=True)
 
+
+@app.route("/user/settings", methods=['GET'])
+def settings():
+    return jsonify(limit=app.config.get('DATABASE_LIMIT', 300))
+    
 
 @app.route('/', methods=['GET'])
 def index():
@@ -160,7 +174,7 @@ def ls():
     return JsonResponse(file_model.get(file_model.allowable_path))
 
 
-@app.route("/query", methods=['POST'])
+@app.route("/database/query", methods=['POST'])
 def query():
     system = request.json.get('system')
     config = get_authorized_config(system)
@@ -168,14 +182,14 @@ def query():
         return jsonify(isLoginRequired=True)
 
     sql = request.json.get('sql')
-    limit = request.json.get('limit', app.config.get('DATABASE_LIMIT', 1000))
+    limit = request.json.get('limit', app.config.get('DATABASE_LIMIT', 300))
     column_limit = app.config.get('COLUMN_DISPLAY_LIMIT', 200)
     fetch_type = config.get('fetch_type')
     try:
         result, description = sqlmodel.run(config, sql, limit, column_limit, fetch_type)
     except LoginError as e:
         return jsonify(message=str(e), isLoginRequired=True)
-
+    
     return jsonify(data=result,
                    elapsed=description.elapsed,
                    count=description.rowcount,
@@ -184,10 +198,32 @@ def query():
                    message=description.message)
 
 
-@app.route("/systems", methods=['GET'])
-def systems():
+@app.route("/database/systems", methods=['GET'])
+def get_systems():
     keys = app.config['DATABASES'].keys()
-    return JsonResponse([{'value': x, 'label': x} for x in keys])
+    systems = [{'value': x, 'label': x} for x in keys]
+    systems.insert(0, {'value': '', 'label': ''})
+    return JsonResponse(systems)
+
+
+@app.route("/database/<system>", methods=['GET'])
+@app.route("/database/<system>/<schema>", methods=['GET'])
+@app.route("/database/<system>/<schema>/<table>", methods=['GET'])
+def get_db_schemas(system, schema=None, table=None):
+    config = get_authorized_config(system)
+    if not config:
+        return jsonify(isLoginRequired=True)
+
+    search = request.args.get('name', None)
+
+    if table:
+        result = sqlmodel.get_database_columns(config, schema, table, search)
+    elif schema:
+        result = sqlmodel.get_database_tables(config, schema, search)
+    else:
+        result = sqlmodel.get_database_schemas(config, search)
+
+    return JsonResponse(result)
 
 
 @app.errorhandler(Exception)

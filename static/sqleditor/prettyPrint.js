@@ -3,7 +3,7 @@ define([
 ], function (lang) {
 
     /**
-     * Callback to prints the properties (columns) of an object in the format
+     * Callback to print the properties (columns) of an object in the format
      * key: value \n
      * @param {object} obj The object.
      * @returns {string} A string representation of object properties.

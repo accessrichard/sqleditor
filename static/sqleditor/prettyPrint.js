@@ -8,7 +8,7 @@ define([
      * @param {object} obj The object.
      * @returns {string} A string representation of object properties.
      */
-    function printRowColumns(obj) {
+    function addRowColumns(obj) {
         var prop,
             result = '';
 
@@ -26,7 +26,7 @@ define([
      * @param {number} num The row number.
      * @returns {string} A string spacer.
      */
-    function printRowSpacer(num) {
+    function addRowSpacer(num) {
         return '================ (Row ' + num + ') =================\n';
     }
 
@@ -37,7 +37,7 @@ define([
      * property names.
      * @returns {string} The header for the pretty printed array.
      */
-    function printHeader(obj, seperator) {
+    function addHeader(obj, seperator) {
         var prop,
             result = '';
 
@@ -116,9 +116,9 @@ define([
 
         options = options || {};
         defaultFormatters = {
-            rowHeader: printRowSpacer,
-            row: printRowColumns,
-            header: printHeader,
+            rowHeader: addRowSpacer,
+            row: addRowColumns,
+            header: addHeader,
             seperator: function (obj) {
                 return obj;
             }
@@ -178,7 +178,7 @@ define([
             },
 
             header: function (obj) {
-                return printHeader(obj, seperator) + '\n';
+                return addHeader(obj, seperator) + '\n';
             }
         });
     }

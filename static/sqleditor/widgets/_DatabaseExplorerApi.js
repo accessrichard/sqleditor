@@ -3,7 +3,7 @@ define([
     'sqleditor/widgets/_DatabaseExplorerMixin'
 ], function (declare,  _DatabaseExplorerMixin) {
 
-    return declare('sqleditor.widgets.DatabaseExplorerMixin', _DatabaseExplorerMixin, {
+    return declare('', _DatabaseExplorerMixin, {
 
         selectSystemOnChange: function () {
         },

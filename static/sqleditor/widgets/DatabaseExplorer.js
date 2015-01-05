@@ -9,7 +9,6 @@ define([
 ], function (declare, lang, arrayUtil, domConstruct, 
              _DatabaseExplorerMixin, DatabaseExplorerModel, LoginDialog) {
 
-
     var model = new DatabaseExplorerModel();
 
     function configureSelectDataProps(select) {

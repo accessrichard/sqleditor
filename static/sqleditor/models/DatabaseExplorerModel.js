@@ -53,6 +53,5 @@ define([
                 return data;
             });
         }
-
     });
 });

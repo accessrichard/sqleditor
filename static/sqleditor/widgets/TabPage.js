@@ -21,7 +21,9 @@ define([
             return false;
         }
 
-        return settings.getPaginationType() !== 'virtual' && this.grid.pagingMethod;
+        return settings.getPaginationType() === 'virtual' ?
+                !this.grid.pagingMethod :
+                !!this.grid.pagingMethod;
     }
 
     function destroyGrid() {
@@ -35,7 +37,7 @@ define([
 
     function renderGrid(data) {
         var GridCls;
-        if (this.grid && !isGridTypeChanged) {
+        if (this.grid && !isGridTypeChanged.call(this)) {
             this.grid.set('columns', data.columns);
             this.grid.set('store', data.store);
             return;

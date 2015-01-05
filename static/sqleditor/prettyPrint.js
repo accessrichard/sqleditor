@@ -22,7 +22,7 @@ define([
     }
 
     /**
-     * Callback to prints a row spacer inbetween each item in the array (row).
+     * Callback to print a row spacer inbetween each item in the array (row).
      * @param {number} num The row number.
      * @returns {string} A string spacer.
      */

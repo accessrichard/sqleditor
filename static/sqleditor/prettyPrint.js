@@ -53,7 +53,7 @@ define([
     }
 
     /**
-     * Callback to pad delimits an object.
+     * Callback to pad delimit an object.
      * @param {object} obj The object(string) to pad delimit.
      * @param {number} len The length to pad the object.
      * @param {string} chr The padding character.

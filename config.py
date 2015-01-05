@@ -51,7 +51,6 @@ class Config(object):
 class ProductionConfig(Config):
     DATABASE_URI = ''
 
-
 class DevelopmentConfig(Config):
     DEBUG = True
 

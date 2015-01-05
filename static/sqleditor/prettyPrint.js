@@ -53,7 +53,7 @@ define([
     }
 
     /**
-     * Pad delimits an object which is converted to a string.
+     * Callback to pad delimits an object.
      * @param {object} obj The object(string) to pad delimit.
      * @param {number} len The length to pad the object.
      * @param {string} chr The padding character.
@@ -81,7 +81,7 @@ define([
     }
 
     /**
-     * Character delimits and object which is converted to a string.
+     * Callback to character delimit an object.
      * @param {object} obj The object to character delimit.
      * @param {string} chr The delimiter character.
      * @returns {string} The delimited string.
@@ -95,7 +95,7 @@ define([
     }
 
     /**
-     * Convets and array of objects into text.
+     * Converts and array of objects into text.
      * Should be refactored.
      * @param {array} arr The array.
      * @param {object} options The text conversion options which contains:
@@ -211,7 +211,9 @@ define([
         },
 
         /**
-         * Vertically prints an array of objects.
+         * Converts an array of objects into to where each object property
+         * is listed as a new row in the format: key: value.
+         * This is similar to MySql's \G command delimiter
          * @param {array} arr The array of objects.
          * @returns {string} The array where each elements properties are printed
          * in a new line.

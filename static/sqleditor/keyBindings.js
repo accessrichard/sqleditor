@@ -4,33 +4,30 @@ require([
     'dojo/domReady!'
 ], function (on, registry) {
 
-    on(document.body, 'keypress', function (e) {
-
-        if (e.ctrlKey) {
-            switch (e.key) {
-            case 's': //save
-                e.preventDefault();
-                registry.byId('buttonSave').onClick();
-                break;
-            case ',': //sql editor focus
-                e.preventDefault();
-                registry.byId('tabContainer').selectedChildWidget.editor.codeEditor.focus();
-                break;
-            case '.': //grid focus
-                e.preventDefault();
-                var tabPage =  registry.byId('tabContainer').selectedChildWidget;
-                if (tabPage.grid) {
-                    tabPage.grid.bodyNode.focus();
-                    break;
-                }
-
-                tabPage.contentPaneGrid.domNode.focus();
+    function bindControlKeys(e) {
+        switch (e.key) {
+        case 's': //save
+            e.preventDefault();
+            registry.byId('buttonSave').onClick();
+            break;
+        case ',': //sql editor focus
+            e.preventDefault();
+            registry.byId('tabContainer').selectedChildWidget.editor.codeEditor.focus();
+            break;
+        case '.': //grid focus
+            e.preventDefault();
+            var tabPage =  registry.byId('tabContainer').selectedChildWidget;
+            if (tabPage.grid) {
+                tabPage.grid.bodyNode.focus();
                 break;
             }
 
-            return;
+            tabPage.contentPaneGrid.domNode.focus();
+            break;
         }
+    }
 
+    function bindFunctionKeys(e) {
         switch (e.key) {
         case 'F8': //run sql
             e.preventDefault();
@@ -41,5 +38,14 @@ require([
             registry.byId('buttonNew').onClick();
             break;
         }
+    }
+
+    on(document.body, 'keypress', function (e) {
+        if (e.ctrlKey) {
+            bindControlKeys(e);
+            return;
+        }
+
+        bindFunctionKeys(e);
     });
 });

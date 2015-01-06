@@ -18,6 +18,7 @@
     <div data-dojo-type="dijit/layout/TabContainer"
 	 data-dojo-props="region:'center', splitter:true"
 	 data-dojo-attach-point="tabContainer"
+         id="tabContainer"
 	 class="tabcontent">
     </div>
     <div data-dojo-type="dijit/layout/ContentPane"
@@ -30,9 +31,9 @@
       <div class="right">
 	<span>Limit:</span>
 	<input data-dojo-type="dijit/form/NumberSpinner"
-	       value="300"
+	       value="100"
                data-dojo-attach-point="numberSpinnerLimit"
-	       data-dojo-props="smallDelta:100, constraints:{min:1,max:3000,places:0}, style:'width:5em'"
+	       data-dojo-props="smallDelta:50, constraints:{min:1,max:3000,places:0}, style:'width:5em'"
 	       name="limit"/>
 	<select data-dojo-type="dijit/form/Select"
                 style="width: 150px",
@@ -42,6 +43,7 @@
 		data-dojo-attach-point="comboBoxSystems"></select>
         <div data-dojo-type="dijit.form.ComboButton"
 	     data-dojo-attach-point="buttonRun"
+             id="buttonRun"
 	     data-dojo-attach-event="onClick:buttonRunClick"
              data-dojo-props="optionsTitle:'Query Options',
                               iconClass:'dijitIconDatabase', 
@@ -51,6 +53,7 @@
             <div data-dojo-type="dijit.MenuItem"
 		 data-dojo-attach-event="onClick:buttonSaveClick"
 		 data-dojo-attach-point="buttonSave"
+                 id="buttonSave"
                  data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconSave'">
               <span>Save</span>
             </div>
@@ -77,6 +80,7 @@
                  data-dojo-attach-event="onClick:buttonNewClick"
 		 data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconNewPage', showLabel: true"
 	         data-dojo-attach-event="onClick:buttonNewClick"
+                 id="buttonNew"
                  data-dojo-attach-point="buttonNew">
               <span>New</span>
             </div>

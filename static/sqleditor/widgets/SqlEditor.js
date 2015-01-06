@@ -15,7 +15,8 @@ define([
     'sqleditor/widgets/MessageQueue',
     'sqleditor/widgets/ErrorHandler',
     'sqleditor/widgets/DatabaseExplorer',
-    'sqleditor/widgets/Settings'
+    'sqleditor/widgets/Settings',
+    'sqleditor/keyBindings'
 ], function (declare, lang, Router, DatabaseExplorerModel, UserModel,
              FileManagerStore,  FileManagerModel, TabPage,
              FileManagerDialog, FileManagerTree, LoginDialog, _LayoutMixin) {

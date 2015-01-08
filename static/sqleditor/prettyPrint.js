@@ -1,212 +1,141 @@
-define([
-    'dojo/_base/lang'
-], function (lang) {
-
-    /**
-     * Callback to print the properties (columns) of an object in the format
-     * key: value \n
-     * @param {object} obj The object.
-     * @returns {string} A string representation of object properties.
-     */
-    function addRowColumns(obj) {
-        var prop,
-            result = '';
-
-        for (prop in obj) {
-            if (obj.hasOwnProperty(prop)) {
-                result +=  prop + ':' + obj[prop] + '\n';
-            }
-        }
-
-        return result;
-    }
-
-    /**
-     * Callback to print a row spacer inbetween each item in the array (row).
-     * @param {number} num The row number.
-     * @returns {string} A string spacer.
-     */
-    function addRowSpacer(num) {
-        return '================ (Row ' + num + ') =================\n';
-    }
-
-    /**
-     * Callback to print a header for the pretty printed array.
-     * @param {object} obj The object in which property names will be printed.
-     * @param {function} seperator A callback which adds a delimiter inbetween 
-     * property names.
-     * @returns {string} The header for the pretty printed array.
-     */
-    function addHeader(obj, seperator) {
-        var prop,
-            result = '';
-
-        for (prop in obj) {
-            if (!obj.hasOwnProperty(prop)) {
-                continue;
-            }
-
-            result += seperator ? seperator(prop) : prop;
-        }
-
-        return result;
-    }
+define([], function () {
 
     /**
      * Callback to pad delimit an object.
-     * @param {object} obj The object(string) to pad delimit.
-     * @param {number} len The length to pad the object.
+     * @param {string} field The field to pad delimit.
+     * @param {number} len The length to pad the field.
      * @param {string} chr The padding character.
      * @returns {string} A padded string.
      */
-    function padDelimit(obj, len, chr) {
-        var str,
-            padding = '',
-            i = 0;
+    function padDelimit(field, len, chr) {
+        var padding = '',
+            i;
 
-        for (i; i <= len; i++) {
+        for (i = 0; i <= len; i += 1) {
             padding += chr;
         }
 
-        if (!obj) {
+        if (!field) {
             return padding.substring(0, len);
         }
 
-        str = obj.toString();
-        if (str.length > len) {
-            return str.substring(0, len - 3) + '...';
+        field = field.toString();
+
+        if (field.length > len) {
+            return field.substring(0, len - 3) + '...';
         }
 
-        return (str + padding).substring(0, len);
+        return (field + padding).substring(0, len);
     }
 
     /**
-     * Callback to character delimit an object.
-     * @param {object} obj The object to character delimit.
-     * @param {string} chr The delimiter character.
-     * @returns {string} The delimited string.
+     * Prints a table vertically similar to the MySql \G command
+     * where each column is printed on a seperate line in the form:
+     *  column: data
+     * @param {object} tbl An object containing { columns: <Array>, data: <Array> }.
+     *    Columns can have properties { field, hidden }
+     * @returns {string} A text representation of the table.
      */
-    function charDelimit(obj, chr) {
-        if (!obj) {
-            return chr;
-        }
+    function printVerticalText(tbl) {
+        var result = '',
+            dataLen,
+            colLen,
+            i,
+            y;
 
-        return obj.toString() + chr;
-    }
-
-    /**
-     * Converts and array of objects into text.
-     * Should be refactored.
-     * @param {array} arr The array.
-     * @param {object} options The text conversion options which contains:
-     *              rowHeader function(listIndex)): callback to print for each row.
-     *              row function(object): callback to print each column.
-     *              header function(object, seperator(function): callback to print row header.
-     *              seperator function(obj): Callback to seperate each column.
-     * @returns {string} The array to text.
-     */
-    function toText(arr, options) {
-        var i = 0,
-            defaultFormatters,
-            result = '';
-
-        if (!arr.length) {
+        if (!tbl && !tbl.data) {
             return '';
         }
 
-        options = options || {};
-        defaultFormatters = {
-            rowHeader: addRowSpacer,
-            row: addRowColumns,
-            header: addHeader,
-            seperator: function (obj) {
-                return obj;
-            }
-        };
+        dataLen = tbl.data.length;
+        colLen = tbl.columns.length;
+        for (i = 0; i <  dataLen; i += 1) {
+            result += '================= Row (' + i + ') =================\n';
 
-        options = lang.mixin(defaultFormatters, options);
-        result += options.header(arr[0]);
-        for (i; i < arr.length; i += 1) {
-            result += options.rowHeader(i);
-            result += options.row(arr[i]);
+            for (y = 0; y < colLen; y += 1) {
+                if (!tbl.columns[y].hidden) {
+                    result += tbl.columns[y].field + ': ' + tbl.data[i][tbl.columns[y].field] + '\n';
+                }
+            }
+
+            result += '\n';
         }
 
         return result;
     }
 
     /**
-     * Converts an array to text where each array
-     * item is printed in a new row.
-     * @param {array} arr The array.
-     * @returns {string} The array conveted into text.
+     * Prints a javascript table as text.
+     * @param {object} tbl An object containing { columns: <Array>, data: <Array> }.
+     *    Columns can have properties { field, hidden }         
+     * @returns {string} A text representation of the table.
      */
-    function toVerticalText(arr) {
-        return toText(arr, {
-            header: function () {
-                return '';
+    function toText(tbl, seperator) {
+        var result = '',
+            dataLen,
+            colLen,
+            i,
+            y;
+
+        if (!tbl && !tbl.data) {
+            return '';
+        }
+
+        dataLen = tbl.data.length;
+        colLen = tbl.columns.length;
+
+        for (y = 0; y < colLen; y += 1) {
+            if (tbl.columns[y].hidden) {
+                continue;
             }
-        });
-    }
 
-    /**
-     * Converts an array to text where each column is seperated
-     * by a delimiter.
-     * @param {array} arr The array.
-     * @param {function} seperator The callback to delimit the array element.
-     * @returns {string} The array conveted into text.
-     */
-    function toHorizontalText(arr, seperator) {
-        return toText(arr, {
-            row: function (obj) {
-                var result = '',
-                    prop;
+            result += seperator(tbl.columns[y].field);
+        }
 
-                for (prop in obj) {
-                    if (!obj.hasOwnProperty(prop)) {
-                        continue;
-                    }
+        result += '\n';
 
-                    result += seperator ? seperator(obj[prop]) : obj[prop];
+        for (i = 0; i <  dataLen; i += 1) {
+            for (y = 0; y < colLen; y += 1) {
+                if (tbl.columns[y].hidden) {
+                    continue;
                 }
 
-                result += '\n';
-                return result;
-            },
-
-            rowHeader: function () {
-                return '';
-            },
-
-            header: function (obj) {
-                return addHeader(obj, seperator) + '\n';
+                result +=  seperator(tbl.data[i][tbl.columns[y].field]);
             }
-        });
+
+            result += '\n';
+        }
+
+        return result;
     }
+
 
     return {
 
         /**
          * Converts an array of objects into pad delimited text.
-         * @param {array} arr The array.
+         * @param {object} tbl An object containing { columns: <Array>, data: <Array> }.
+         *    Columns can have properties { field, hidden }         
          * @param {number} len The length to pad each array element property.
          * @param {string} chr The padding character.
          * @returns {string} The pad delimited array.
          */
-        padDelimit: function (arr, len, chr) {
-            return toHorizontalText(arr, function (obj) {
-                return padDelimit(obj, len, chr);
+        padDelimit: function (tbl, len, chr) {
+            return toText(tbl, function (str) {
+                return padDelimit(str, len, chr);
             });
         },
 
         /**
          * Converts an array of objects into character delimited text.
-         * @param {array} arr The array.
+         * @param {object} tbl An object containing { columns: <Array>, data: <Array> }.
+         *    Columns can have properties { field, hidden }                  
          * @param {string} chr The delimiting character.
          * @returns {string} The character delimited array.
          */
-        charDelimit: function (arr, chr) {
-            return toHorizontalText(arr, function (obj) {
-                return charDelimit(obj, chr);
+        charDelimit: function (tbl, chr) {
+            return toText(tbl, function (str) {
+                return str + chr;
             });
         },
 
@@ -214,12 +143,13 @@ define([
          * Converts an array of objects into to where each object property
          * is listed as a new row in the format: key: value.
          * This is similar to MySql's \G command delimiter
-         * @param {array} arr The array of objects.
+         * @param {object} tbl An object containing { columns: <Array>, data: <Array> }.
+         *    Columns can have properties { field, hidden }                  
          * @returns {string} The array where each elements properties are printed
          * in a new line.
          */
-        vertical: function (arr) {
-            return toVerticalText(arr);
+        vertical: function (data) {
+            return printVerticalText(data);
         }
     };
 });

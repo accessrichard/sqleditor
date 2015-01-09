@@ -64,14 +64,15 @@ define([
 
     function render(results) {
         var format = settings.getDataFormat(),
-            data = results.store.data;
+            data = {data: results.store.data,
+                    columns: results.columns};
 
         switch (format) {
         case 'grid':
             renderGrid.call(this, results);
             break;
         case 'text':
-            renderText.call(this, prettyPrint.padDelimit(data, 25, ' '));
+            renderText.call(this, prettyPrint.padDelimit(data, 20, ' '));
             break;
         case 'tabDelimited':
             renderText.call(this, prettyPrint.charDelimit(data, '\t'));

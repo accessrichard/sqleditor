@@ -8,8 +8,7 @@ define([
     'dojo/when',
     'sqleditor/models/FileManagerModel',
     'dijit/TooltipDialog'
-], function (declare, Dialog, lang, _FileDialogMixin, Tree, popup, when,
-             FileManagerModel) {
+], function (declare, Dialog, lang, _FileDialogMixin, Tree, popup, when, FileManagerModel) {
 
     var isInitialized = false;
 
@@ -44,14 +43,40 @@ define([
             this.initTree();
         },
 
+        initTree: function () {
+            this.tree = new Tree({
+                model: FileManagerModel.getModel(),
+                openOnClick: false,
+                openOnDblClick: true,
+                onClick: lang.hitch(this, this.onTreeNodeClick)
+            }, this.treeNode);
+        },
+
+        onTreeNodeClick: function (item, node) {
+            this.updateFileDialogPath();
+            this.textboxFileName.set('disabled', !item.isDir);
+            this.buttonSave.set('disabled',
+                                item.isDir &&
+                                this.textboxFileName.get('value') === '');
+            this.deleteButton.set('disabled', !this.tree.isEmptyFolder(item.id));
+            this.dropDownNewFolder.set('disabled',
+                            !this.tree.isSingleNodeSelected() || !item.isDir);
+
+            if (!item.isDir) {
+                this.textboxFileName.set('value', '');
+            }
+        },
+
         /**
-         * OnShow and onTreeRefresh callback can be defined in order to refresh
+         * onShow and onTreeRefresh callback can be defined in order to refresh
          * the tree store data and sync it with the server.
          */
         _onShow: function () {
             var that = this;
 
             this.inherited(arguments);
+            this.clearForm();
+
             if (!this.onTreeRefresh) {
                 return;
             }
@@ -74,7 +99,7 @@ define([
                 newFile = {
                     name: name + '.sql',
                     isDir: false,
-                    content: this._get('fileContent'),
+                    content: this.get('fileContent'),
                     parentId: this.tree.get('selectedItem').id
                 };
 
@@ -89,6 +114,7 @@ define([
 
         buttonDeleteClick: function () {
             var id = this.tree.get('selectedItem').id;
+
             if (!this.tree.isEmptyFolder(id)) {
                 return;
             }
@@ -156,28 +182,11 @@ define([
             this.textFileDialogPath.innerHTML = path;
         },
 
-        onTreeNodeClick: function (item, node) {
-            this.updateFileDialogPath();
-            this.textboxFileName.set('disabled', !item.isDir);
-            this.buttonSave.set('disabled',
-                                item.isDir &&
-                                this.textboxFileName.get('value') === '');
-            this.deleteButton.set('disabled', !this.tree.isEmptyFolder(item.id));
-            this.dropDownNewFolder.set('disabled',
-                            !this.tree.isSingleNodeSelected() || !item.isDir);
-
-            if (!item.isDir) {
-                this.textboxFileName.set('value', '');
-            }
-        },
-
-        initTree: function () {
-            this.tree = new Tree({
-                model: FileManagerModel.getModel(),
-                openOnClick: false,
-                openOnDblClick: true,
-                onClick: lang.hitch(this, this.onTreeNodeClick)
-            }, this.treeNode);
+        clearForm: function () {
+            this.textboxFileName.set('value', '');
+            this.textboxFolderName.set('value', '');
+            this.newFolderPath.innerHTML = '';
+            this.textFileDialogPath.innerHTML = '';
         }
     });
 });

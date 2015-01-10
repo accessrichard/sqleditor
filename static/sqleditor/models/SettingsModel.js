@@ -20,7 +20,8 @@ define([
                 dataFormat: 'Grid',
                 paginationType: 'Paginated',
                 pageSize: '15',
-                keyBinding: 'Default'
+                keyBinding: 'Default',
+                fontSize: '1.3em'
             };
 
             cookie(this.cookieName, JSON.stringify(defaults));
@@ -104,6 +105,16 @@ define([
         setPageSize: function (size) {
             var obj = JSON.parse(cookie(this.cookieName));
             obj.pageSize = size;
+            cookie(this.cookieName, JSON.stringify(obj));
+        },
+
+        getFontSize: function () {
+            return JSON.parse(cookie(this.cookieName)).fontSize;
+        },
+
+        setFontSize: function (size) {
+            var obj = JSON.parse(cookie(this.cookieName));
+            obj.fontSize = size;
             cookie(this.cookieName, JSON.stringify(obj));
         }
     });

@@ -1,10 +1,11 @@
 define([
     'dojo/_base/declare',
     'dojo/_base/lang',
+    'dojo/query',
     'dijit/registry',
     'sqleditor/widgets/_SettingsMixin',
     'sqleditor/models/SettingsModel'
-], function (declare, lang, registry, _SettingsMixin, SettingsModel) {
+], function (declare, lang, query, registry, _SettingsMixin, SettingsModel) {
 
 
     var model = new SettingsModel();
@@ -24,6 +25,8 @@ define([
 
         this.selectKeyBindings.set('options', model.getKeyBindingModel());
         this.selectKeyBindings.set('value', model.getKeyBindingType());
+
+        this.numberSpinnerFontSize.set('value', model.getFontSize());
     }
 
     return declare('sqleditor.widgets.Settings', _SettingsMixin, {
@@ -66,6 +69,14 @@ define([
                     page.editor.codeEditor.setOption('keyMap', value);
                 }
             }
+        },
+
+        numberSpinnerFontSizeOnChange: function () {
+            var value = this.numberSpinnerFontSize.get('value');
+            model.setFontSize(value);
+            query(".CodeMirror").style({
+                fontSize: value + 'em'
+            });
         }
     });
 });

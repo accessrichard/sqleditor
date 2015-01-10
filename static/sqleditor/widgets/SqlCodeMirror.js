@@ -2,6 +2,7 @@ define([
     'dojo/_base/declare',
     'dojo/_base/lang',
     'dijit/_WidgetBase',
+    'dojo/query',
     'codemirror/lib/codemirror',
     'sqleditor/models/SettingsModel',
     'codemirror/mode/sql/sql',
@@ -10,7 +11,7 @@ define([
     'codemirror/addon/dialog/dialog',
     'codemirror/keymap/emacs',
     'codemirror/addon/edit/matchbrackets'
-], function (declare, lang, _WidgetBase, CodeMirror, SettingsModel) {
+], function (declare, lang, _WidgetBase, query, CodeMirror, SettingsModel) {
 
     var settings = new SettingsModel();
 
@@ -67,15 +68,24 @@ define([
             return settings.getKeyBindingType();
         },
 
+        applyStyles: function () {
+            var value = settings.getFontSize();
+            query(".CodeMirror").style({
+                fontSize: value + 'em'
+            });
+        },
+
         startup: function () {
             this.inherited(arguments);
             this.codeEditor = CodeMirror.fromTextArea(this.srcNodeRef, this.options);
             this.codeEditor.setSize('100%', '100%');
-            var content = this._get('_content');
+            var content = this.get('_content');
             if (content) {
                 this.codeEditor.setValue(content);
-                this._set('_content', null);
+                this.set('_content', null);
             }
+
+            this.applyStyles();
         }
     });
 });

@@ -18,6 +18,9 @@ define([
         },
 
         selectKeyBindingsOnChange: function () {
+        },
+
+        numberSpinnerFontSizeOnChange: function () {
         }
 
     });

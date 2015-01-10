@@ -4,7 +4,8 @@ define([
     'dijit/_TemplatedMixin',
     'dijit/_WidgetsInTemplateMixin',
     'dojo/text!/static/sqleditor/widgets/templates/settings.html',
-    'dijit/form/Select'
+    'dijit/form/Select',
+    'dijit/form/NumberSpinner'
 ], function (declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, template) {
 
     var inherited = [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin];

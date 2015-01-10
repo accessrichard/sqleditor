@@ -3,8 +3,8 @@ define([
     'dojo/_base/lang',
     'dojo/_base/array',
     'dojo/dom-construct',
-    "dojo/dom-style",
-    "dojo/aspect",
+    'dojo/dom-style',
+    'dojo/aspect',
     'sqleditor/widgets/_DatabaseExplorerMixin',
     'sqleditor/models/DatabaseExplorerModel',
     'sqleditor/widgets/LoginDialog'
@@ -50,10 +50,13 @@ define([
         selectSystemOnChange: function () {
             var system = this.selectSystem.get('value'),
                 that = this;
+
             this.selectSchema.set('disabled', system === '');
             this.selectSchema.set('value', '');
 
-            model.getSchemaModel(system).query({ name: 'nothing' }).then(function (result) {
+            //// Add server method isLoginRequired and call that here.
+            //// Currently executing a fake query.
+            model.getSchemaModel(system).query({ name: 'isLoginRequired' }).then(function (result) {
                 if (result.isLoginRequired) {
                     that.showLoginDialog(system);
                 }

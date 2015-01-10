@@ -1,9 +1,10 @@
 define([
     'dojo/_base/declare',
     'dojo/_base/lang',
+    'dijit/registry',
     'sqleditor/widgets/_SettingsMixin',
     'sqleditor/models/SettingsModel'
-], function (declare, lang, _SettingsMixin, SettingsModel) {
+], function (declare, lang, registry, _SettingsMixin, SettingsModel) {
 
 
     var model = new SettingsModel();
@@ -52,8 +53,19 @@ define([
         },
 
         selectKeyBindingsOnChange: function () {
-            var value = this.selectKeyBindings.get('value');
+            var value = this.selectKeyBindings.get('value'),
+                tabs,
+                page,
+                i;
+
             model.setKeyBinding(value);
+            tabs = registry.byId('tabContainer').tablist.getChildren();
+            for (i = 0; i < tabs.length; i += 1) {
+                page = tabs[i].page;
+                if (page && page.editor && page.editor.codeEditor) {
+                    page.editor.codeEditor.setOption('keyMap', value);
+                }
+            }
         }
     });
 });

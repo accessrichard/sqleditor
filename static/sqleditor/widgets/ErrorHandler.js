@@ -14,7 +14,7 @@ define([
      * any XHR errors.
      */
     notify('done', function (responseOrError) {
-        if (responseOrError instanceof Error) {
+        if (responseOrError instanceof Error && responseOrError.response.data) {
             dialog.set('content', responseOrError.response.data.message);
             dialog.show();
         }

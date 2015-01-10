@@ -3,10 +3,12 @@ define([
     'dojo/_base/lang',
     'dojo/_base/array',
     'dojo/dom-construct',
+    "dojo/dom-style",
+    "dojo/aspect",
     'sqleditor/widgets/_DatabaseExplorerMixin',
     'sqleditor/models/DatabaseExplorerModel',
     'sqleditor/widgets/LoginDialog'
-], function (declare, lang, arrayUtil, domConstruct, 
+], function (declare, lang, arrayUtil, domConstruct, domStyle, aspect,
              _DatabaseExplorerMixin, DatabaseExplorerModel, LoginDialog) {
 
     var model = new DatabaseExplorerModel();
@@ -37,6 +39,12 @@ define([
             configureSelectDataProps(this.selectSchema);
             configureSelectDataProps(this.selectTable);
             initSystems.call(this);
+            this.own(
+                aspect.after(this.selectSchema, '_startSearch', this.showLoading),
+                aspect.after(this.selectSchema, 'onSearch', this.hideLoading),
+                aspect.after(this.selectTable, '_startSearch', this.showLoading),
+                aspect.after(this.selectTable, 'onSearch', this.hideLoading)
+            );
         },
 
         selectSystemOnChange: function () {
@@ -106,8 +114,9 @@ define([
         displayColumns: function (system, schema, table) {
             var that = this;
             this.clearColumns();
-
+            this.showLoading();
             model.getColumnModel(system, schema, table).query({}).then(function (results) {
+                that.hideLoading();
                 var ul,
                     container = domConstruct.create('div', {
                         innerHTML: '<b>Columns:</b>'
@@ -122,6 +131,14 @@ define([
 
         clearColumns: function () {
             domConstruct.empty(this.columnListDomNode);
+        },
+
+        showLoading: function () {
+            domStyle.set("dbExplorerLoading", "display", "block");
+        },
+
+        hideLoading: function () {
+            domStyle.set("dbExplorerLoading", "display", "none");
         }
     });
 });

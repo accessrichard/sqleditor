@@ -68,6 +68,7 @@ define([
                     openOnClick: true,
                     onClick: lang.hitch(that, that.treeNodeOnClick)
                 }, that.treeNode);
+
                 that.tree.onLoadDeferred.then(function () {
                     that.startRouter();
                 });
@@ -290,6 +291,15 @@ define([
             if (newTab.grid) {
                 newTab.grid.resize();
             }
+        },
+
+        comboboxSearchOnChange: function () {
+            var id = this.comboboxSearch.item.base64path,
+                that = this;
+
+            this.tree.model.store.query({ id: id }).then(function (item) {
+                that.tree.expandItem(item[0]);
+            });
         }
     });
 });

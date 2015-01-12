@@ -4,7 +4,7 @@ import os
 import io
 from os import listdir
 from os.path import isfile, join, isdir
-
+import filesearch
 
 def validate_extension(f):
     """ Instance method decorator to validates
@@ -121,6 +121,18 @@ class FileManager(object):
         """
         self.allowable_path = allowable_path.lower()
         self.allowable_exts = [x.lower() for x in allowable_exts]
+
+
+    @validate_path
+    def search(self, path, search_string):
+        """ Searches a path and all subdirectories for files containing 
+        search_string.
+
+        Args:
+          path (str): The base path to search in.
+          search_string (str): The search string
+        """
+        return filesearch.search(path, self.allowable_exts, search_string)
 
     @validate_path
     def get(self, path):

@@ -13,12 +13,13 @@ define([
     'dijit/form/ComboButton',
     'dijit/form/NumberSpinner',
     'dijit/Menu',
-    'dijit/MenuItem'
+    'dijit/MenuItem',
+    'sqleditor/widgets/SearchComboBox'
 ], function (declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, template) {
 
     var inherited = [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin];
 
-    return declare('sqleditor/widgets/_LayoutMixin', inherited, {
+    return declare('sqleditor.widgets._LayoutMixin', inherited, {
 
         templateString: template
 

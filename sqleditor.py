@@ -12,6 +12,7 @@ from models.database import LoginError
 from models.filemodel import FileManager
 from models import crypto
 
+
 class SqlEditorJsonEncoder(JSONEncoder):
 
     def default(self, obj):
@@ -44,8 +45,8 @@ def is_authorization_required(system):
         return '{password}' in value or '{username}' in value
 
     return '{username}' in connection or '{password}' in connection
-    
-    
+
+
 def get_secret_key():
     user_key = request.cookies.get('sqleditor', None)
     if user_key:
@@ -135,7 +136,7 @@ def logout():
 @app.route("/user/settings", methods=['GET'])
 def settings():
     return jsonify(limit=app.config.get('DATABASE_LIMIT', 300))
-    
+
 
 @app.route('/', methods=['GET'])
 def index():
@@ -174,6 +175,13 @@ def ls():
     return JsonResponse(file_model.get(file_model.allowable_path))
 
 
+@app.route("/search", methods=['GET'])
+def search():
+    keyword = request.args.get('name', None)
+    results = file_model.search(file_model.allowable_path, keyword)
+    return JsonResponse([x.__dict__ for x in results])
+
+
 @app.route("/database/query", methods=['POST'])
 def query():
     system = request.json.get('system')
@@ -189,7 +197,7 @@ def query():
         result, description = sqlmodel.run(config, sql, limit, column_limit, fetch_type)
     except LoginError as e:
         return jsonify(message=str(e), isLoginRequired=True)
-    
+
     return jsonify(data=result,
                    elapsed=description.elapsed,
                    count=description.rowcount,

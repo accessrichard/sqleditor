@@ -58,7 +58,6 @@ class Db(object):
     def connect(self):
         return self.db.connect(*self.args, **self.kwargs)
 
-
     def execute(self, sql, params=None):
         try:
             conn, cursor = None, None
@@ -77,7 +76,6 @@ class Db(object):
             if conn:
                 conn.close()
 
-        
     def query(self, sql):
         try:
             conn, cursor = None, None
@@ -103,34 +101,13 @@ class Db(object):
             if conn:
                 conn.close()
 
-    def insert(self, sql):
-        conn = self.connect()
-        cursor = self.get_cursor(conn)
-        try:
-            cursor.execute(sql)
-            conn.commit()
-            return cursor.lastrowid, cursor.rowcount
-        finally:
-            cursor.close()
-            conn.close()
-
-    def update(self, sql):
-        conn = self.connect()
-        cursor = self.get_cursor(conn)
-        try:
-            cursor.execute(sql)
-            conn.commit()
-            return cursor.rowcount
-        finally:
-            cursor.close()
-            conn.close()
-
     def execute_non_query(self, sql):
         conn = self.connect()
         cursor = self.get_cursor(conn)
         try:
             cursor.execute(sql)
             conn.commit()
+            return cursor.lastrowid, cursor.rowcount
         finally:
             cursor.close()
             conn.close()
@@ -159,7 +136,6 @@ class Db(object):
         finally:
             if conn:
                 conn.close()
-
 
 
 class MySqlDb(Db):

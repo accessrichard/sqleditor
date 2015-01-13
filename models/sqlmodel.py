@@ -1,18 +1,18 @@
 import sqlparse
-from database import Db, Column
+from database import Db, Column, Description
 from sqlparse.sql import Where
 from sqlparse.tokens import Keyword, Punctuation
 
 
 def run(config, sql, row_limit, column_limit, fetch_type=None):
     """ Runs a sql query against a database.
-    
+
     Modifies the query as follows:
       1. Strips comments.
       2. Adds a limit clause.
       3. If no id field exists, adds one; ID()
-    
-    If the query is for a create, insert or update 
+
+    If the query is for a create, insert or update
     will kick out an exception.
 
   Args:
@@ -25,11 +25,11 @@ def run(config, sql, row_limit, column_limit, fetch_type=None):
           type is used. This parameter is more specific to odbc.
 
     Returns:
-       A tuple of (results, description) where the description 
+       A tuple of (results, description) where the description
        contains the columns and elapsed time of the reults.
     """
     if is_modify_statement(sql):
-        raise Exception("Only SELECT statements supported")
+        return execute_non_query(config, sql)
 
     cleansql = add_db_row_limit(
         config['db_type'], remove_comments(sql), row_limit, fetch_type)
@@ -39,6 +39,30 @@ def run(config, sql, row_limit, column_limit, fetch_type=None):
         set_column_hidden_attribute(column_limit, description.columns)
 
     return add_id_field(results, description)
+
+
+def execute_non_query(config, sql):
+    """ Executes a sql modify statement.
+
+    Args:
+       config (dict): The sqleditor database config section for
+         DATABASES[system]
+       sql (str): The sql statement.
+    """
+    try:
+        cols = [Column('lastrowid', label='Last Row ID'),
+                Column('rowcount', label='Modified Row Count')]
+        lastrow, rowcount = get_database(config).execute_non_query(sql)
+        desc = Description(cols, rowcount, 0, 'lastrowid')
+        desc.message = "Last row id: {0}, row count: {1}".format(
+            lastrow, rowcount)
+        results = [{'lastrowid': lastrow, 'rowcount': rowcount}]
+        return results, desc
+
+    except Exception as e:
+        desc = Description([Column('Error')], 0, 0, 'Error')
+        desc.message = str(e)
+        return [{'Error': str(e)}], desc
 
 
 def set_column_hidden_attribute(column_limit, columns):
@@ -74,10 +98,10 @@ def get_database(config):
         return Db.get(config['db_type'], **kwArgs)
     else:
         return Db.get(config['db_type'], db_args)
-    
+
 
 def test_connection(config):
-    """ Tests a database connection by 
+    """ Tests a database connection by
     running a dummy statement for example: select '';
 
     Args:
@@ -113,12 +137,12 @@ def get_database_columns(config, schema, table, search=None):
 
 def to_wildcard(search):
     return '%' if not search or search == "" else '%' + search + '%'
-    
+
 
 def add_id_field(results, description):
     """The dojo data stores are optimized for id fields.
     This allows for massive performance gains by allowing
-    virtual scrolling. 
+    virtual scrolling.
     """
     description.columns.insert(0, Column('_id', label="ID()", hidden=True))
     num = 0
@@ -127,17 +151,17 @@ def add_id_field(results, description):
         result['_id'] = num
 
     return results, description
-    
+
 
 def add_db_row_limit(db_type, sql, limit=300, fetch_type=None):
-    """Adds a database limit clause specific to 
+    """Adds a database limit clause specific to
     the database system if one does not exist.
 
     This is necassary so that large resultsets do not
     hose up the browser.
 
     Unlike jdbc there is no consistent way to limit rows
-    thru Python's DB API 2, therefore are forced to limit the 
+    thru Python's DB API 2, therefore are forced to limit the
     resultsets thru parsing the sql statment and adding one.
 
     One of:
@@ -181,7 +205,7 @@ def remove_comments(sql):
 
 
 def is_modify_statement(sql):
-    """Identifies whether the sql statement is 
+    """Identifies whether the sql statement is
     for an INSERT, UPDATE, DELETE, or CREATE.
 
     Args:

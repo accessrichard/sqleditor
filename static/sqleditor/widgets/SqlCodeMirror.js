@@ -56,8 +56,11 @@ define([
                 smartIndent: true,
                 keyMap: this.getKeyBindingSetting(),
                 extraKeys: {
-                    Enter: function (cm) {
-                        cm.replaceSelection('\n', 'end');
+                    //// Override emacs tab auto-indent
+                    //// which isn't effective in sql mode.
+                    Tab: function (cm) {
+                        var spaces = [cm.getOption("indentunit") + 3].join(" ");
+                        cm.replaceSelection(spaces);
                     }
                 },
                 mode: this.mode

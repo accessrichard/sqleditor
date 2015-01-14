@@ -43,7 +43,7 @@ def _search_file(file, search_string):
     with open(file, 'r') as searchfile:
         previous_line = ''
         for line in searchfile:
-            if search_string in line:
+            if search_string in line.lower():
                 matching_lines.append(previous_line)
                 matching_lines.append(line)
 
@@ -53,6 +53,7 @@ def _search_file(file, search_string):
 
 
 def search(path, filter, search_string):
+    search_string = search_string.lower()
     if not os.path.exists(path) or os.path.isfile(path):
         raise ValueError('path must exist and must be a directory.')
 

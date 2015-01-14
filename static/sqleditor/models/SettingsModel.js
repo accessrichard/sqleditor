@@ -21,7 +21,8 @@ define([
                 paginationType: 'Paginated',
                 pageSize: '15',
                 keyBinding: 'Default',
-                fontSize: '1.3em'
+                fontSize: '1.3em',
+                fontFamily: 'Courier, "Courier New"'
             };
 
             cookie(this.cookieName, JSON.stringify(defaults));
@@ -115,6 +116,23 @@ define([
         setFontSize: function (size) {
             var obj = JSON.parse(cookie(this.cookieName));
             obj.fontSize = size;
+            cookie(this.cookieName, JSON.stringify(obj));
+        },
+
+        getFontFamily: function () {
+            return JSON.parse(cookie(this.cookieName)).fontFamily;
+        },
+
+        getFontFamilyModel: function () {
+            return [
+                { label: 'Courier', value: 'Courier,"Courier New"' },
+                { label: 'Sans Serif', value: 'Arial,sans-serif,Helvetica,Courier' }
+            ];
+        },
+
+        setFontFamily: function (family) {
+            var obj = JSON.parse(cookie(this.cookieName));
+            obj.fontFamily = family;
             cookie(this.cookieName, JSON.stringify(obj));
         }
     });

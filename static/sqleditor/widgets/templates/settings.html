@@ -21,13 +21,13 @@
   </div>
   <div class="formGroup">
     <label for "pageSize">Default Page Size:</label>
-        <select data-dojo-type="dijit/form/Select"
+    <select data-dojo-type="dijit/form/Select"
             id="pageSize"
             name="pageSize"
             data-dojo-props="style: {width: '100%'}"
             data-dojo-attach-point="selectPageSize"
             data-dojo-attach-event="onChange:selectPageSizeOnChange">
-        </select>
+    </select>
   </div>
   <div class="formGroup">
     <label for "keyBindings">Key Bindings:</label>
@@ -39,15 +39,25 @@
             data-dojo-attach-point="selectKeyBindings">
     </select>
   </div>
-    <div class="formGroup">
-      <label for "fontSize">Sql Font Size:</label>
-      	<input data-dojo-type="dijit/form/NumberSpinner"
-            id="cmFontSize"
-	       value="1.3"
-               data-dojo-attach-point="numberSpinnerFontSize"
-               data-dojo-attach-event="onChange:numberSpinnerFontSizeOnChange"
-               data-dojo-attach-point="numberSpinnerFontSize"
-	       data-dojo-props="smallDelta:.1, constraints:{min:.5,max:3,places:1}, style:'width:100%', intermediateChanges:true"
-               name="fontSize"/>
+  <div class="formGroup">
+    <label for "fontSize">Sql Font Size:</label>
+    <input data-dojo-type="dijit/form/NumberSpinner"
+           id="cmFontSize"
+	   value="1.3"
+           data-dojo-attach-point="numberSpinnerFontSize"
+           data-dojo-attach-event="onChange:numberSpinnerFontSizeOnChange"
+           data-dojo-attach-point="numberSpinnerFontSize"
+	   data-dojo-props="smallDelta:.1, constraints:{min:.5,max:3,places:1}, style:'width:100%', intermediateChanges:true"
+           name="fontSize"/>
+  </div>
+  <div class="formGroup">
+    <label for "sqlFontFamily">Sql Font Family:</label>
+    <select data-dojo-type="dijit/form/Select"
+            id="sqlFontFamily"
+            name="sqlFontFamily"
+            data-dojo-props="style: {width: '100%'}"
+            data-dojo-attach-event="onChange:selectFontFamilyOnChange"
+            data-dojo-attach-point="selectFontFamily">
+    </select>
   </div>
 </div>

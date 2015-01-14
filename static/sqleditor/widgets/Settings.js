@@ -27,6 +27,10 @@ define([
         this.selectKeyBindings.set('value', model.getKeyBindingType());
 
         this.numberSpinnerFontSize.set('value', model.getFontSize());
+
+        this.selectFontFamily.set('options', model.getFontFamilyModel());
+        this.selectFontFamily.set('value', model.getFontFamily());
+
     }
 
     return declare('sqleditor.widgets.Settings', _SettingsMixin, {
@@ -76,6 +80,14 @@ define([
             model.setFontSize(value);
             query(".CodeMirror").style({
                 fontSize: value + 'em'
+            });
+        },
+
+        selectFontFamilyOnChange: function () {
+            var value = this.selectFontFamily.get('value');
+            model.setFontFamily(value);
+            query(".CodeMirror").style({
+                fontFamily: value
             });
         }
     });

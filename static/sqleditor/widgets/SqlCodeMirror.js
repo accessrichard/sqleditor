@@ -53,13 +53,12 @@ define([
             this.options = lang.mixin({
                 lineNumbers: true,
                 matchBrackets: true,
-                smartIndent: true,
                 keyMap: this.getKeyBindingSetting(),
                 extraKeys: {
-                    //// Override emacs tab auto-indent
-                    //// which isn't effective in sql mode.
+                    //// Use regular tabs for emacs since the sql
+                    //// auto indentation does not indent kewords.
                     Tab: function (cm) {
-                        var spaces = [cm.getOption("indentunit") + 3].join(" ");
+                        var spaces = new Array(cm.options.tabSize + 1).join(" ");
                         cm.replaceSelection(spaces);
                     }
                 },
@@ -72,9 +71,12 @@ define([
         },
 
         applyStyles: function () {
-            var value = settings.getFontSize();
+            var fontSize = settings.getFontSize(),
+                fontFamily = settings.getFontFamily();
+
             query(".CodeMirror").style({
-                fontSize: value + 'em'
+                fontSize: fontSize + 'em',
+                fontFamily: fontFamily
             });
         },
 

@@ -215,6 +215,27 @@ class Odbc(Db):
     def get_col_descriptions(self, cursor=None):
         return [Column(x[0], '') for x in cursor.description]
 
+    def execute(self, sql, params=None):
+        try:
+            conn, cursor = None, None
+            conn = self.connect()
+            cursor = self.get_cursor(conn)
+            cursor.execute(sql, params)
+            results = cursor.fetchall()
+            cols = self.get_col_descriptions(cursor)
+            return [dict(zip([column.field.lower() for column in cols], row))
+                    for row in results]
+        except Exception as e:
+            if self.is_login_error(e):
+                raise LoginError(e)
+
+            raise e
+        finally:
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()
+
 
 class SqlServer(Db):
     pass

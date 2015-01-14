@@ -21,7 +21,7 @@ define([
 
     function initSystems() {
         var that = this;
-        new model.getSystemModel().then(function (store) {
+        model.getSystemModel().then(function (store) {
             that.selectSystem.set('options', store);
         });
     }

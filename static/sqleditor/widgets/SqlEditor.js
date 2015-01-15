@@ -291,6 +291,9 @@ define([
             if (newTab.grid) {
                 newTab.grid.resize();
             }
+
+            //// Refresh code editor in case font/display changes.
+            newTab.editor.codeEditor.refresh();
         },
 
         comboboxSearchOnChange: function () {

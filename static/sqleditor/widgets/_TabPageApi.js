@@ -1,7 +1,9 @@
 define([
     'dojo/_base/declare',
-    'sqleditor/widgets/TabPage'
-], function (declare, TabPage){
+    'sqleditor/widgets/TabPage',
+    'sqleditor/widgets/DatabaseExplorer',
+    'sqleditor/widgets/Settings'
+], function (declare, TabPage) {
 
     return declare(null, {
 
@@ -13,12 +15,20 @@ define([
 
         buttonNewClick: function () {
         },
-  
+
         buttonLogoutClick: function () {
         },
-        
-        comboboxSystemsOnChange: function () {
-        }
 
+        comboboxSystemsOnChange: function () {
+        },
+
+        comboboxSearchOnChange: function () {
+        },
+
+        buttonLinkClick: function () {
+        },
+
+        buttonLoginClick: function () {
+        }
     });
 });

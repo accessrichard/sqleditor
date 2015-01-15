@@ -76,11 +76,22 @@ define([
         },
 
         numberSpinnerFontSizeOnChange: function () {
-            var value = this.numberSpinnerFontSize.get('value');
+            var value = this.numberSpinnerFontSize.get('value'),
+                tabContainer;
+
             model.setFontSize(value);
             query(".CodeMirror").style({
                 fontSize: value + 'em'
             });
+
+            //// After font size changes, tell the editor to refresh
+            //// in order to keep the cursor size in line with the font.
+            //// In addition, refresh must be called at the time of tab 
+            //// selection for any other tabs preset.
+            tabContainer =  registry.byId('tabContainer');
+            if (tabContainer && tabContainer.selectedChildWidget) {
+                tabContainer.selectedChildWidget.editor.codeEditor.refresh();
+            }
         },
 
         selectFontFamilyOnChange: function () {

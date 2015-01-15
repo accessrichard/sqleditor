@@ -12,9 +12,9 @@ define([
             this.on('keypress', function (e) {
                 if (e.key === 'F11') {
                     e.preventDefault();
-                    domClass.toggle('queryResults', 'fullscreen');
+                    domClass.toggle(that.domNode.id, 'fullscreen');
                     query('#layoutBorderContainer').style({
-                        height: domClass.contains("queryResults", "fullscreen") ? 0 : ''
+                        height: domClass.contains(that.domNode.id, "fullscreen") ? 0 : ''
                     });
 
                     that.resize();

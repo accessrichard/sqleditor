@@ -1,3 +1,4 @@
+/*jslint todo: true */
 define([
     'dojo/_base/declare',
     'dojo/_base/lang',
@@ -9,8 +10,9 @@ define([
     'codemirror/addon/search/search',
     'codemirror/addon/search/searchcursor',
     'codemirror/addon/dialog/dialog',
-    'codemirror/keymap/emacs',
-    'codemirror/addon/edit/matchbrackets'
+    'codemirror/addon/edit/matchbrackets',
+    'codemirror/addon/display/fullscreen',
+    'codemirror/keymap/emacs'
 ], function (declare, lang, _WidgetBase, query, CodeMirror, SettingsModel) {
 
     var settings = new SettingsModel();
@@ -49,7 +51,9 @@ define([
 
         postCreate: function () {
             this.inherited(arguments);
-            var options = this.options || {};
+            var options = this.options || {},
+                that = this;
+
             this.options = lang.mixin({
                 lineNumbers: true,
                 matchBrackets: true,
@@ -60,19 +64,48 @@ define([
                     Tab: function (cm) {
                         var spaces = new Array(cm.options.tabSize + 1).join(" ");
                         cm.replaceSelection(spaces);
+                    },
+                    F11: function (cm) {
+                        var fullscreen = cm.getOption('fullScreen');
+                        cm.setOption('fullScreen', !fullscreen);
+                        that.setBorderContainerVisibility(fullscreen);
                     }
                 },
                 mode: this.mode
             }, options);
         },
 
+        /**
+         * CodeMirror fullscreen mode uses absolute positioning.
+         * This is the same as the dijit widgets in a BorderContainer.
+         * Since the z-index property does not apply to absolute positioning,
+         * need to hack the BorderContainer (tabs, file explorer etc.) in order
+         * to get them out of the viewport by setting their height to 0.
+         * 
+         * TODO: A dependency should not exist between BorderContainer and 
+         * this class.
+         * @param {Boolean} isVisible
+         */
+        setBorderContainerVisibility: function (isVisible) {
+            query('#layoutBorderContainer').style({
+                height: isVisible ? '' : 0
+            });
+        },
+
         getKeyBindingSetting: function () {
             return settings.getKeyBindingType();
         },
 
+        /**
+         * Applies settings from the sql editor.
+         * TODO: A dependency shouldn't exist between
+         * settings and this class.
+         */
         applyStyles: function () {
             var fontSize = settings.getFontSize(),
                 fontFamily = settings.getFontFamily();
+
+            this.codeEditor.setOption('theme', settings.getEditorTheme());
 
             query(".CodeMirror").style({
                 fontSize: fontSize + 'em',
@@ -82,15 +115,24 @@ define([
 
         startup: function () {
             this.inherited(arguments);
+            var content = this.get('_content'),
+                that = this;
+
             this.codeEditor = CodeMirror.fromTextArea(this.srcNodeRef, this.options);
             this.codeEditor.setSize('100%', '100%');
-            var content = this.get('_content');
+
             if (content) {
                 this.codeEditor.setValue(content);
                 this.set('_content', null);
             }
 
             this.applyStyles();
+            this.codeEditor.on("blur", function () {
+                //// Need to exit full screen mode when the editor
+                //// loses focus.
+                that.codeEditor.setOption('fullScreen', false);
+                that.setBorderContainerVisibility(true);
+            });
         }
     });
 });

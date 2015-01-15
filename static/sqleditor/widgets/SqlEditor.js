@@ -179,6 +179,7 @@ define([
                     }
 
                     page.refresh();
+                    page.editor.codeEditor.focus();
                 });
             });
         },

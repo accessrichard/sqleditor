@@ -22,7 +22,8 @@ define([
                 pageSize: '15',
                 keyBinding: 'Default',
                 fontSize: '1.3em',
-                fontFamily: 'Courier, "Courier New"'
+                fontFamily: 'Courier, "Courier New"',
+                editorTheme: 'defaut'
             };
 
             cookie(this.cookieName, JSON.stringify(defaults));
@@ -133,6 +134,24 @@ define([
         setFontFamily: function (family) {
             var obj = JSON.parse(cookie(this.cookieName));
             obj.fontFamily = family;
+            cookie(this.cookieName, JSON.stringify(obj));
+        },
+
+        getEditorTheme: function () {
+            return JSON.parse(cookie(this.cookieName)).editorTheme;
+        },
+
+        getEditorThemeModel: function () {
+            return [
+                { label: 'Default', value: 'default' },
+                { label: 'Midnight', value: 'midnight' },
+                { label: '3024-Night', value: '3024-night' }
+            ];
+        },
+
+        setEditorTheme: function (theme) {
+            var obj = JSON.parse(cookie(this.cookieName));
+            obj.editorTheme = theme;
             cookie(this.cookieName, JSON.stringify(obj));
         }
     });

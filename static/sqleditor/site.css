@@ -10,13 +10,10 @@
     color: gray;
 }
 
-.CodeMirror pre {
-    font-size: 1.3em;
-}
-
 .cm-s-default .cm-keyword {
     font-weight: bold;
 }
+
 .gridPane {
     height: 50px;
     width: 100%;

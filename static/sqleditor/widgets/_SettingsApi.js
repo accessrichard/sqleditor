@@ -21,7 +21,12 @@ define([
         },
 
         numberSpinnerFontSizeOnChange: function () {
-        }
+        },
 
+        selectFontFamilyOnChange: function () {
+        },
+
+        selectEditorThemeOnChange: function () {
+        }
     });
 });

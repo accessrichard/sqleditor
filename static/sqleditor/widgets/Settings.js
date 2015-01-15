@@ -11,7 +11,7 @@ define([
     var model = new SettingsModel();
 
     /**
-     *  Populates the select lists from the model.
+     *  Populates default values on the settings form from the model.
      */
     function init() {
         this.selectDataFormat.set('options', model.getDataFormatModel());
@@ -31,6 +31,26 @@ define([
         this.selectFontFamily.set('options', model.getFontFamilyModel());
         this.selectFontFamily.set('value', model.getFontFamily());
 
+        this.selectEditorTheme.set('options', model.getEditorThemeModel());
+        this.selectEditorTheme.set('value', model.getEditorTheme());
+    }
+
+    /**
+     * Applies a callback to the editor on every tab page.
+     * @callback callback
+     * @param codemirror The codemirror instance.
+     */
+    function codeEditorForEach(callback) {
+        var tabs = registry.byId('tabContainer').tablist.getChildren(),
+            page,
+            i;
+
+        for (i = 0; i < tabs.length; i += 1) {
+            page = tabs[i].page;
+            if (page && page.editor && page.editor.codeEditor) {
+                callback(page.editor.codeEditor);
+            }
+        }
     }
 
     return declare('sqleditor.widgets.Settings', _SettingsMixin, {
@@ -60,19 +80,11 @@ define([
         },
 
         selectKeyBindingsOnChange: function () {
-            var value = this.selectKeyBindings.get('value'),
-                tabs,
-                page,
-                i;
-
+            var value = this.selectKeyBindings.get('value');
             model.setKeyBinding(value);
-            tabs = registry.byId('tabContainer').tablist.getChildren();
-            for (i = 0; i < tabs.length; i += 1) {
-                page = tabs[i].page;
-                if (page && page.editor && page.editor.codeEditor) {
-                    page.editor.codeEditor.setOption('keyMap', value);
-                }
-            }
+            codeEditorForEach(function (codeEditor) {
+                codeEditor.setOption('keyMap', value);
+            });
         },
 
         numberSpinnerFontSizeOnChange: function () {
@@ -99,6 +111,14 @@ define([
             model.setFontFamily(value);
             query(".CodeMirror").style({
                 fontFamily: value
+            });
+        },
+
+        selectEditorThemeOnChange: function () {
+            var value = this.selectEditorTheme.get('value');
+            model.setEditorTheme(value);
+            codeEditorForEach(function (codeEditor) {
+                codeEditor.setOption('theme', value);
             });
         }
     });

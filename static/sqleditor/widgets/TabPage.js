@@ -152,7 +152,7 @@ define([
             }
 
             if (this.grid._started){
-                this.grid.refresh();
+                this.grid.resize();
                 return;
             }
 

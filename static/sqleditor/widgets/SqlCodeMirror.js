@@ -76,10 +76,9 @@ define([
         },
 
         /**
-         * CodeMirror fullscreen mode uses absolute positioning.
-         * This is the same as the dijit widgets in a BorderContainer.
-         * Since the z-index property does not apply to absolute positioning,
-         * need to hack the BorderContainer (tabs, file explorer etc.) in order
+         * Dijit bordercontainer uses absolute positioning and
+         * therefore the z-index isn't effective.
+         * Need to hack the BorderContainer (tabs, file explorer etc.) in order
          * to get them out of the viewport by setting their height to 0.
          * 
          * TODO: A dependency should not exist between BorderContainer and 

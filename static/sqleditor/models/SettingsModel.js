@@ -21,7 +21,7 @@ define([
                 paginationType: 'Paginated',
                 pageSize: '15',
                 keyBinding: 'Default',
-                fontSize: '1.3em',
+                fontSize: '1.3',
                 fontFamily: 'Courier, "Courier New"',
                 editorTheme: 'defaut'
             };

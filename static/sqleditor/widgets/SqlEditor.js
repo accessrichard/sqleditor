@@ -307,16 +307,24 @@ define([
             });
         },
 
-        toggleExplorer: function () {
+        isExplorerVisible: function () {
             var container = registry.byId('layoutBorderContainer'),
                 children = container.getChildren(),
                 i;
 
             for (i = 0; i < children.length; i += 1) {
                 if (children[i].declaredClass === 'dijit.layout.AccordionContainer') {
-                    registry.byId('layoutBorderContainer').removeChild(registry.byId('leftAccordion'));
-                    return;
+                    return true;
                 }
+            }
+
+            return false;
+        },
+
+        toggleExplorer: function () {
+            if (this.isExplorerVisible()) {
+                registry.byId('layoutBorderContainer').removeChild(registry.byId('leftAccordion'));
+                return;
             }
 
             registry.byId('layoutBorderContainer').addChild(registry.byId('leftAccordion'));

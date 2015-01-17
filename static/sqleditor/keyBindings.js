@@ -41,6 +41,16 @@ require([
             e.preventDefault();
             registry.byId('buttonNew').onClick();
             break;
+        case 'F10': //open file
+            e.preventDefault();
+
+            if (!registry.byId('editor').isExplorerVisible()) {
+                registry.byId('editor').toggleExplorer();
+            }
+
+            registry.byId('leftAccordion').selectChild(registry.byId('fileManager'));
+            document.getElementById('searchCombobox').focus();
+            break;
         }
     }
 

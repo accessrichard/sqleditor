@@ -1,3 +1,4 @@
+/*global  */
 define([], function () {
 
     /**
@@ -89,7 +90,7 @@ define([], function () {
                 continue;
             }
 
-            result += seperator(tbl.columns[y].field, tbl.columns[y].len);
+            result += seperator(tbl.columns[y].field, tbl.columns[y]);
         }
 
         result += '\n';
@@ -100,7 +101,7 @@ define([], function () {
                     continue;
                 }
 
-                result +=  seperator(tbl.data[i][tbl.columns[y].field], tbl.columns[y].len);
+                result +=  seperator(tbl.data[i][tbl.columns[y].field], tbl.columns[y]);
             }
 
             result += '\n';
@@ -156,8 +157,8 @@ define([], function () {
         padDelimit: function (tbl, maxlen, chr) {
             var spacerLength = 3;
             addColumnLengths(tbl);
-            return toText(tbl, function (str, colLen) {
-                return padDelimit(str, Math.min(colLen + spacerLength, maxlen), chr);
+            return toText(tbl, function (str, col) {
+                return padDelimit(str, Math.min(col.len + spacerLength, maxlen), chr);
             });
         },
 

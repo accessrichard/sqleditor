@@ -132,3 +132,8 @@
     margin: 0px;
     padding: 3px 20px;
 }
+
+pre, code {
+    background-color: #ffffff;
+    border: 0px;
+}

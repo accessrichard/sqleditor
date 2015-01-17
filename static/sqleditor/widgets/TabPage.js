@@ -104,7 +104,7 @@ define([
             renderGrid.call(this, results);
             break;
         case 'text':
-            renderText.call(this, prettyPrint.padDelimit(data, 20, ' '));
+            renderText.call(this, prettyPrint.padDelimit(data, 200, ' '));
             break;
         case 'tabDelimited':
         case 'commaDelimited':

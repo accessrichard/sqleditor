@@ -24,6 +24,10 @@ require([
 
             tabPage.contentPaneResult.domNode.focus();
             break;
+        case 'e': //toggle explorer
+            e.preventDefault();
+            registry.byId('editor').toggleExplorer();
+            break;
         }
     }
 

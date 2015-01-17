@@ -2,6 +2,7 @@
 define([
     'dojo/_base/declare',
     'dojo/_base/lang',
+    'dijit/registry',
     'sqleditor/Router',
     'sqleditor/models/DatabaseExplorerModel',
     'sqleditor/models/UserModel',
@@ -17,8 +18,8 @@ define([
     'sqleditor/widgets/DatabaseExplorer',
     'sqleditor/widgets/Settings',
     'sqleditor/keyBindings'
-], function (declare, lang, Router, DatabaseExplorerModel, UserModel,
-             FileManagerStore,  FileManagerModel, TabPage,
+], function (declare, lang, registry, Router, DatabaseExplorerModel,
+             UserModel, FileManagerStore,  FileManagerModel, TabPage,
              FileManagerDialog, FileManagerTree, LoginDialog, _LayoutMixin) {
 
     var tabCount = 0,
@@ -304,6 +305,21 @@ define([
             this.tree.model.store.query({ id: id }).then(function (item) {
                 that.tree.expandItem(item[0]);
             });
+        },
+
+        toggleExplorer: function () {
+            var container = registry.byId('layoutBorderContainer'),
+                children = container.getChildren(),
+                i;
+
+            for (i = 0; i < children.length; i += 1) {
+                if (children[i].declaredClass === 'dijit.layout.AccordionContainer') {
+                    registry.byId('layoutBorderContainer').removeChild(registry.byId('leftAccordion'));
+                    return;
+                }
+            }
+
+            registry.byId('layoutBorderContainer').addChild(registry.byId('leftAccordion'));
         }
     });
 });

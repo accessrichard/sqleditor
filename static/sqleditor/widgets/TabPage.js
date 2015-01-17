@@ -8,9 +8,11 @@ define([
     'sqleditor/models/GridModel',
     'sqleditor/prettyPrint',
     'sqleditor/models/SettingsModel',
+    'dojo/dom-class',
+    'dojo/query',
     'sqleditor/widgets/SqlCodeMirror'
-], function (declare, domConstruct, Standby,
-             _TabPageMixin, Grid, VirtualGrid, GridModel, prettyPrint, SettingsModel) {
+], function (declare, domConstruct, Standby, _TabPageMixin, Grid,
+             VirtualGrid, GridModel, prettyPrint, SettingsModel, domClass, query) {
 
     var gridModel = new GridModel(),
         settings = new SettingsModel();
@@ -55,6 +57,33 @@ define([
         domConstruct.place(this.grid.domNode, this.queryResultNode);
     }
 
+    /**
+     * Binds the F11 key to full screen mode for the results pane.
+     * Full screen mode for the code editor is built into CodeMirror.
+     */
+    function bindKeys() {
+        var that = this;
+        if (this.onResultKeyPress) {
+            this.onResultKeyPress.remove();
+        }
+
+        this.onResultKeyPress = this.contentPaneResult.on('keyPress', function (e) {
+            e.preventDefault();
+            that.queryResultNode.focus();
+            if (e.key === 'F11') {
+                that.toggleResultsFullScreen();
+            }
+        });
+
+        //// Forego dojo evented for stock javascript one in order to 
+        //// bind onBlur to a div with a tabindex.
+        this.queryResultNode.onblur =  function () {
+            if (domClass.contains(that.queryResultNode, "fullscreen")) {
+                that.toggleResultsFullScreen();
+            }
+        };
+    }
+
     function renderText(text) {
         destroyGrid.call(this);
         domConstruct.create('pre', {
@@ -65,7 +94,10 @@ define([
     function render(results) {
         var format = settings.getDataFormat(),
             data = {data: results.store.data,
-                    columns: results.columns};
+                    columns: results.columns},
+            delimiter = { tabDelimited: '\t',
+                          commaDelimited: ',',
+                          pipeDelimited: '|' };
 
         switch (format) {
         case 'grid':
@@ -75,20 +107,16 @@ define([
             renderText.call(this, prettyPrint.padDelimit(data, 20, ' '));
             break;
         case 'tabDelimited':
-            renderText.call(this, prettyPrint.charDelimit(data, '\t'));
-            break;
         case 'commaDelimited':
-            renderText.call(this, prettyPrint.charDelimit(data, ','));
-            break;
         case 'pipeDelimited':
-            renderText.call(this, prettyPrint.charDelimit(data, '|'));
+            renderText.call(this, prettyPrint.charDelimit(data, delimiter[format]));
             break;
         case 'vertical':
             renderText.call(this, prettyPrint.vertical(data));
             break;
-        default:
-            renderGrid.call(this, results);
         }
+
+        bindKeys.call(this);
     }
 
     function runQuery(sql, system, limit) {
@@ -115,10 +143,10 @@ define([
 
         this.standby = new Standby({
             id: this.file,
-            target : this.contentPaneGrid.domNode
+            target : this.contentPaneResult.domNode
         });
 
-        this.contentPaneGrid.addChild(this.standby);
+        this.contentPaneResult.addChild(this.standby);
     }
 
     return declare('sqleditor.widgets.TabPage', _TabPageMixin, {
@@ -157,6 +185,29 @@ define([
             }
 
             this.grid.startup();
+        },
+
+        toggleResultsFullScreen: function () {
+            var isFullScreen = !domClass.contains(this.queryResultNode, "fullscreen");
+
+            if (isFullScreen) {
+                domClass.add(this.queryResultNode, 'fullscreen');
+            }
+
+            //// dgrid manages it's own scrollbars so only add scroll to text results.
+            if (isFullScreen && !this.grid) {
+                query(".fullscreen").style("overflow", "scroll");
+            }
+
+            if (!isFullScreen) {
+                query(".fullscreen").style("overflow", "initial");
+                domClass.remove(this.queryResultNode, 'fullscreen');
+            }
+
+            //// Hide the container as z-index property does not apply.
+            query('#layoutBorderContainer').style({
+                height: isFullScreen ? 0 : ''
+            });
         }
     });
 });

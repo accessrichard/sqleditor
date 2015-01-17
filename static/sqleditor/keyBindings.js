@@ -22,7 +22,7 @@ require([
                 break;
             }
 
-            tabPage.contentPaneGrid.domNode.focus();
+            tabPage.contentPaneResult.domNode.focus();
             break;
         }
     }

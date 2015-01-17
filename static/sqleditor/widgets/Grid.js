@@ -5,22 +5,17 @@ define([
     'dgrid/extensions/ColumnHider',
     'dgrid/extensions/Pagination',
     'dojo/_base/declare',
-    'sqleditor/models/SettingsModel',
-    'sqleditor/widgets/FullScreenGrid'
+    'sqleditor/models/SettingsModel'
 ], function (Grid, ColumnResizer, ColumnReorder,
-             ColumnHider, Pagination, declare, SettingsModel, FullScreenGrid) {
+             ColumnHider, Pagination, declare, SettingsModel) {
 
     var settings = new SettingsModel();
 
-    return declare([Grid, ColumnResizer, ColumnReorder, ColumnHider, Pagination, FullScreenGrid], {
+    return declare([Grid, ColumnResizer, ColumnReorder, ColumnHider, Pagination], {
 
         rowsPerPage: settings.getPageSize(),
 
-        pageSizeOptions: settings.getPageSizeOptions(),
+        pageSizeOptions: settings.getPageSizeOptions()
 
-        postCreate: function () {
-            this.inherited(arguments);
-            this.bindKeys();
-        }
     });
 });

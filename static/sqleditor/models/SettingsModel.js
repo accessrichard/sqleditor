@@ -17,10 +17,10 @@ define([
 
         initCookieDefaults: function () {
             var defaults = {
-                dataFormat: 'Grid',
-                paginationType: 'Paginated',
+                dataFormat: 'grid',
+                paginationType: 'paginated',
                 pageSize: '15',
-                keyBinding: 'Default',
+                keyBinding: 'default',
                 fontSize: '1.3',
                 fontFamily: 'Courier, "Courier New"',
                 editorTheme: 'defaut'
@@ -41,7 +41,7 @@ define([
         },
 
         getDataFormat: function () {
-            return JSON.parse(cookie(this.cookieName)).outputType;
+            return JSON.parse(cookie(this.cookieName)).dataFormat;
         },
 
         setDataFormat: function (format) {

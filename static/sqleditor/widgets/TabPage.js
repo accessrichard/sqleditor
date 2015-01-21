@@ -9,10 +9,11 @@ define([
     'sqleditor/prettyPrint',
     'sqleditor/models/SettingsModel',
     'dojo/dom-class',
+    'dojo/dom-attr',
     'dojo/query',
     'sqleditor/widgets/SqlCodeMirror'
 ], function (declare, domConstruct, Standby, _TabPageMixin, Grid,
-             VirtualGrid, GridModel, prettyPrint, SettingsModel, domClass, query) {
+             VirtualGrid, GridModel, prettyPrint, SettingsModel, domClass, domAttr, query) {
 
     var gridModel = new GridModel(),
         settings = new SettingsModel();
@@ -69,16 +70,26 @@ define([
 
         this.onResultKeyPress = this.contentPaneResult.on('keyPress', function (e) {
             e.preventDefault();
-            that.queryResultNode.focus();
+
             if (e.key === 'F11') {
+                that.queryResultNode.focus();
                 that.toggleResultsFullScreen();
             }
         });
 
+        if (this.grid) {
+            //// Grid is composed of a number of active elements.
+            //// Can not simply use the onblur event without edge cases
+            //// creeping up. Issues are present if in fullscreen mode
+            //// the keybinding for new tab or run query are run
+            //// as the page gets corrupted.
+            return;
+        }
+
         //// Forego dojo evented for stock javascript one in order to 
         //// bind onBlur to a div with a tabindex.
-        this.queryResultNode.onblur =  function () {
-            if (domClass.contains(that.queryResultNode, "fullscreen")) {
+        this.queryResultNode.onblur =  function (e) {
+            if (domClass.contains(this.queryResultNode, "fullscreen")) {
                 that.toggleResultsFullScreen();
             }
         };
@@ -188,25 +199,29 @@ define([
         },
 
         toggleResultsFullScreen: function () {
-            var isFullScreen = !domClass.contains(this.queryResultNode, "fullscreen");
+            var isFullScreen = domClass.contains(this.queryResultNode, "fullscreen");
 
-            if (isFullScreen) {
+            if (!isFullScreen) {
                 domClass.add(this.queryResultNode, 'fullscreen');
             }
 
             //// dgrid manages it's own scrollbars so only add scroll to text results.
-            if (isFullScreen && !this.grid) {
+            if (!isFullScreen && !this.grid) {
                 query(".fullscreen").style("overflow", "scroll");
             }
 
-            if (!isFullScreen) {
+            if (isFullScreen) {
                 query(".fullscreen").style("overflow", "initial");
                 domClass.remove(this.queryResultNode, 'fullscreen');
             }
 
+            if (this.grid) {
+                this.grid.resize();
+            }
+
             //// Hide the container as z-index property does not apply.
             query('#layoutBorderContainer').style({
-                height: isFullScreen ? 0 : ''
+                height: isFullScreen ? '' : 0
             });
         }
     });

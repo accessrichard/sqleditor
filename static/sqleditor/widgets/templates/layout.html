@@ -6,7 +6,7 @@
     <div data-dojo-type="dijit/layout/AccordionContainer" 
 	 data-dojo-props="minSize:20, region:'left', splitter:true"
 	 id="leftAccordion">
-      <div data-dojo-type="dijit/layout/ContentPane" title="File Manager">
+      <div data-dojo-type="dijit/layout/ContentPane" title="File Manager" id="fileManager">
         <div data-dojo-type="sqleditor/widgets/SearchComboBox"
              id="searchCombobox"
              data-dojo-attach-point="comboboxSearch"
@@ -14,10 +14,10 @@
              data-dojo-attach-event="onChange:comboboxSearchOnChange"></div>
 	<div id="fileTree"></div>
       </div>
-      <div data-dojo-type="dijit/layout/ContentPane" title="Database Explorer">
+      <div data-dojo-type="dijit/layout/ContentPane" title="Database Explorer" id="databaseExplorer">
         <div data-dojo-type="sqleditor/widgets/DatabaseExplorer"></div>
       </div>
-      <div data-dojo-type="dijit/layout/ContentPane" title="Settings">
+      <div data-dojo-type="dijit/layout/ContentPane" title="Settings" id="settings">
         <div data-dojo-type="sqleditor/widgets/Settings"></div>
       </div>
     </div>

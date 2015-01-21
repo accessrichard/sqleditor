@@ -28,6 +28,10 @@ require([
             e.preventDefault();
             registry.byId('editor').toggleExplorer();
             break;
+        case '/':
+            e.preventDefault();
+            registry.byId('tabContainer').tablist.getChildren()[0].focusNode.focus();
+            break;
         }
     }
 

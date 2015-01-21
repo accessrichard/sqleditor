@@ -46,7 +46,7 @@ define([
 
         setDataFormat: function (format) {
             var obj = JSON.parse(cookie(this.cookieName));
-            obj.outputType = format;
+            obj.dataFormat = format;
             cookie(this.cookieName, JSON.stringify(obj));
         },
 

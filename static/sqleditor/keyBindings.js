@@ -1,64 +1,125 @@
 require([
     'dojo/on',
     'dijit/registry',
+    'dojo/keys',
     'dojo/domReady!'
-], function (on, registry) {
+], function (on, registry, keys) {
+
+    function saveQuery() {
+        registry.byId('buttonSave').onClick();
+    }
+
+    function runQuery() {
+        registry.byId('buttonRun').onClick();
+    }
+
+    function openNewScratchPad() {
+        registry.byId('buttonNew').onClick();
+    }
+
+    function setFocusOnEditor() {
+        registry.byId('tabContainer').selectedChildWidget.editor.codeEditor.focus();
+    }
+
+    function setFocusOnQueryResults() {
+        var tabPage =  registry.byId('tabContainer').selectedChildWidget;
+        if (tabPage.grid) {
+            tabPage.grid.bodyNode.focus();
+            return;
+        }
+
+        tabPage.contentPaneResult.domNode.focus();
+    }
+
+    function setFocusOnTabList() {
+        var container = registry.byId('tabContainer');
+        if (container.tablist && container.tablist.getChildren().length) {
+            container.tablist.getChildren()[0].focusNode.focus();
+        }
+    }
+
+    function setFocusOnFileSearch() {
+        if (!registry.byId('editor').isExplorerVisible()) {
+            registry.byId('editor').toggleExplorer();
+        }
+
+        registry.byId('leftAccordion').selectChild(registry.byId('fileManager'));
+        document.getElementById('searchCombobox').focus();
+    }
+
+    function toggleExplorer() {
+        registry.byId('editor').toggleExplorer();
+    }
+
+    function populateEventKey(e) {
+        switch (e.which) {
+        case 188:
+            e.key = ',';
+            return;
+        case 190:
+            e.key = '.';
+            return;
+        case 186:
+            e.key = ';';
+            return;
+        case 83:
+            e.key = 's';
+            return;
+        case 69:
+            e.key = 'e';
+            return;
+        }
+
+        return;
+    }
 
     function bindControlKeys(e) {
-        switch (e.key) {
-        case 's': //save
-            e.preventDefault();
-            registry.byId('buttonSave').onClick();
-            break;
-        case ',': //sql editor focus
-            e.preventDefault();
-            registry.byId('tabContainer').selectedChildWidget.editor.codeEditor.focus();
-            break;
-        case '.': //grid focus
-            e.preventDefault();
-            var tabPage =  registry.byId('tabContainer').selectedChildWidget;
-            if (tabPage.grid) {
-                tabPage.grid.bodyNode.focus();
-                break;
-            }
+        if (!e.key) {
+            populateEventKey(e);
+        }
 
-            tabPage.contentPaneResult.domNode.focus();
-            break;
-        case 'e': //toggle explorer
+        switch (e.key) {
+        case 's':
             e.preventDefault();
-            registry.byId('editor').toggleExplorer();
+            saveQuery();
             break;
-        case '/':
+        case ',':
             e.preventDefault();
-            registry.byId('tabContainer').tablist.getChildren()[0].focusNode.focus();
+            setFocusOnEditor();
+            break;
+        case '.':
+            e.preventDefault();
+            setFocusOnQueryResults();
+            break;
+        case 'e':
+            e.preventDefault();
+            toggleExplorer();
+            break;
+        case ';':
+            e.preventDefault();
+            setFocusOnTabList();
             break;
         }
     }
 
     function bindFunctionKeys(e) {
-        switch (e.key) {
-        case 'F8': //run sql
+        switch (e.charCode || e.keyCode) {
+        case keys.F8:
             e.preventDefault();
-            registry.byId('buttonRun').onClick();
+            runQuery();
             break;
-        case 'F9': //new scratchpad
+        case keys.F9:
             e.preventDefault();
-            registry.byId('buttonNew').onClick();
+            openNewScratchPad();
             break;
-        case 'F10': //open file
+        case keys.F10:
             e.preventDefault();
-
-            if (!registry.byId('editor').isExplorerVisible()) {
-                registry.byId('editor').toggleExplorer();
-            }
-
-            registry.byId('leftAccordion').selectChild(registry.byId('fileManager'));
-            document.getElementById('searchCombobox').focus();
+            setFocusOnFileSearch();
             break;
         }
     }
 
-    on(document.body, 'keypress', function (e) {
+    on(document.body, 'keydown', function (e) {
         if (e.ctrlKey) {
             bindControlKeys(e);
             return;

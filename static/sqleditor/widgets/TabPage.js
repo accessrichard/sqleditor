@@ -9,11 +9,11 @@ define([
     'sqleditor/prettyPrint',
     'sqleditor/models/SettingsModel',
     'dojo/dom-class',
-    'dojo/dom-attr',
     'dojo/query',
+    'dojo/keys',
     'sqleditor/widgets/SqlCodeMirror'
 ], function (declare, domConstruct, Standby, _TabPageMixin, Grid,
-             VirtualGrid, GridModel, prettyPrint, SettingsModel, domClass, domAttr, query) {
+             VirtualGrid, GridModel, prettyPrint, SettingsModel, domClass, query, keys) {
 
     var gridModel = new GridModel(),
         settings = new SettingsModel();
@@ -68,10 +68,11 @@ define([
             this.onResultKeyPress.remove();
         }
 
-        this.onResultKeyPress = this.contentPaneResult.on('keyPress', function (e) {
+        this.onResultKeyPress = this.contentPaneResult.on('keydown', function (e) {
+            var charOrKeyCode = e.charCode || e.keyCode;
             e.preventDefault();
 
-            if (e.key === 'F11') {
+            if (charOrKeyCode === keys.F11) {
                 that.queryResultNode.focus();
                 that.toggleResultsFullScreen();
             }

@@ -65,14 +65,18 @@ define([
                         var spaces = new Array(cm.options.tabSize + 1).join(" ");
                         cm.replaceSelection(spaces);
                     },
-                    F11: function (cm) {
-                        var fullscreen = cm.getOption('fullScreen');
-                        cm.setOption('fullScreen', !fullscreen);
-                        that.setBorderContainerVisibility(fullscreen);
+                    F11: function () {
+                        that.toggleFullScreen();
                     }
                 },
                 mode: this.mode
             }, options);
+        },
+
+        toggleFullScreen: function () {
+            var fullscreen = this.codeEditor.getOption('fullScreen');
+            this.codeEditor.setOption('fullScreen', !fullscreen);
+            this.setBorderContainerVisibility(fullscreen);
         },
 
         /**
@@ -126,12 +130,6 @@ define([
             }
 
             this.applyStyles();
-            this.codeEditor.on("blur", function () {
-                //// Need to exit full screen mode when the editor
-                //// loses focus.
-                that.codeEditor.setOption('fullScreen', false);
-                that.setBorderContainerVisibility(true);
-            });
         }
     });
 });

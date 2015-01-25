@@ -58,44 +58,6 @@ define([
         domConstruct.place(this.grid.domNode, this.queryResultNode);
     }
 
-    /**
-     * Binds the F11 key to full screen mode for the results pane.
-     * Full screen mode for the code editor is built into CodeMirror.
-     */
-    function bindKeys() {
-        var that = this;
-        if (this.onResultKeyPress) {
-            this.onResultKeyPress.remove();
-        }
-
-        this.onResultKeyPress = this.contentPaneResult.on('keydown', function (e) {
-            var charOrKeyCode = e.charCode || e.keyCode;
-            e.preventDefault();
-
-            if (charOrKeyCode === keys.F11) {
-                that.queryResultNode.focus();
-                that.toggleResultsFullScreen();
-            }
-        });
-
-        if (this.grid) {
-            //// Grid is composed of a number of active elements.
-            //// Can not simply use the onblur event without edge cases
-            //// creeping up. Issues are present if in fullscreen mode
-            //// the keybinding for new tab or run query are run
-            //// as the page gets corrupted.
-            return;
-        }
-
-        //// Forego dojo evented for stock javascript one in order to 
-        //// bind onBlur to a div with a tabindex.
-        this.queryResultNode.onblur =  function (e) {
-            if (domClass.contains(this.queryResultNode, "fullscreen")) {
-                that.toggleResultsFullScreen();
-            }
-        };
-    }
-
     function renderText(text) {
         destroyGrid.call(this);
         domConstruct.create('pre', {
@@ -127,8 +89,6 @@ define([
             renderText.call(this, prettyPrint.vertical(data));
             break;
         }
-
-        bindKeys.call(this);
     }
 
     function runQuery(sql, system, limit) {
@@ -199,8 +159,20 @@ define([
             this.grid.startup();
         },
 
-        toggleResultsFullScreen: function () {
-            var isFullScreen = domClass.contains(this.queryResultNode, "fullscreen");
+        isFullScreenResults: function () {
+            if (!this.queryResultNode) {
+                return false;
+            }
+
+            return domClass.contains(this.queryResultNode, "fullscreen");
+        },
+
+        toggleFullScreenResults: function () {
+            var isFullScreen = this.isFullScreenResults();
+
+            if (!this.queryResultNode) {
+                return;
+            }
 
             if (!isFullScreen) {
                 domClass.add(this.queryResultNode, 'fullscreen');

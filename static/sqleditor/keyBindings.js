@@ -5,6 +5,9 @@ require([
     'dojo/domReady!'
 ], function (on, registry, keys) {
 
+    //// Predeclared for lint warning: function is used before defined.
+    var escapeFullScreen;
+
     function saveQuery() {
         registry.byId('buttonSave').onClick();
     }
@@ -51,6 +54,49 @@ require([
         registry.byId('editor').toggleExplorer();
     }
 
+    function toggleFullScreenEditor() {
+        var tabPage =  registry.byId('tabContainer').selectedChildWidget;
+        if (!tabPage || !tabPage.editor) {
+            return;
+        }
+
+        if (tabPage.isFullScreenResults()) {
+            escapeFullScreen();
+        }
+
+        tabPage.editor.toggleFullScreen();
+    }
+
+    function toggleFullScreenResults() {
+        var tabPage =  registry.byId('tabContainer').selectedChildWidget;
+        if (!tabPage || !tabPage.queryResultNode) {
+            return;
+        }
+
+        if (tabPage.editor.codeEditor.getOption('fullScreen')) {
+            escapeFullScreen();
+        }
+
+        tabPage.toggleFullScreenResults();
+    }
+
+    escapeFullScreen = function () {
+        var tabPage =  registry.byId('tabContainer').selectedChildWidget;
+        if (!tabPage || !tabPage.queryResultNode || !tabPage.editor) {
+            return;
+        }
+
+        if (tabPage.isFullScreenResults()) {
+            toggleFullScreenResults();
+            return;
+        }
+
+        if (tabPage.editor.codeEditor.getOption('fullScreen')) {
+            toggleFullScreenEditor();
+            return;
+        }
+    };
+
     function populateEventKey(e) {
         switch (e.which) {
         case 188:
@@ -62,12 +108,8 @@ require([
         case 186:
             e.key = ';';
             return;
-        case 83:
-            e.key = 's';
-            return;
-        case 69:
-            e.key = 'e';
-            return;
+        default:
+            e.key = String.fromCharCode(e.which).toLowerCase();
         }
 
         return;
@@ -83,21 +125,29 @@ require([
             e.preventDefault();
             saveQuery();
             break;
-        case ',':
+        case '1':
             e.preventDefault();
             setFocusOnEditor();
             break;
-        case '.':
+        case '2':
             e.preventDefault();
             setFocusOnQueryResults();
             break;
-        case 'e':
-            e.preventDefault();
-            toggleExplorer();
-            break;
-        case ';':
+        case '3':
             e.preventDefault();
             setFocusOnTabList();
+            break;
+        case '7':
+            e.preventDefault();
+            toggleFullScreenEditor();
+            break;
+        case '8':
+            e.preventDefault();
+            toggleFullScreenResults();
+            break;
+        case '9':
+            e.preventDefault();
+            toggleExplorer();
             break;
         }
     }
@@ -106,15 +156,22 @@ require([
         switch (e.charCode || e.keyCode) {
         case keys.F8:
             e.preventDefault();
+            escapeFullScreen();
             runQuery();
             break;
         case keys.F9:
             e.preventDefault();
+            escapeFullScreen();
             openNewScratchPad();
             break;
         case keys.F10:
             e.preventDefault();
+            escapeFullScreen();
             setFocusOnFileSearch();
+            break;
+        case keys.ESCAPE:
+            e.preventDefault();
+            escapeFullScreen();
             break;
         }
     }

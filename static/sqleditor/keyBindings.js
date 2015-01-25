@@ -97,29 +97,38 @@ require([
         }
     };
 
+    /**
+     * Populating e.key as the character value of the key code since javascript
+     * key events are so confusing.
+     * According to: https://developer.mozilla.org/en-US/docs/Web/Events/keypress
+     * keyCode, charCode and which are depreciated for e.key which may or may not
+     * be implemented. In addition string.fromCharCode is not reliable since
+     * string.fromCharCode(120) = 'w' (unicode char w) instead of F8 (js code 120)
+     * so evaluate special chars seperately.
+     * @param {object} e The key event.
+     */
     function populateEventKey(e) {
         switch (e.which) {
-        case 188:
-            e.key = ',';
+        case keys.F8:
+            e.key = 'F8';
             return;
-        case 190:
-            e.key = '.';
+        case keys.F9:
+            e.key = 'F9';
             return;
-        case 186:
-            e.key = ';';
+        case keys.F10:
+            e.key = 'F10';
             return;
-        default:
-            e.key = String.fromCharCode(e.which).toLowerCase();
+        case keys.ESCAPE:
+            e.key = 'Esc';
+            return;
         }
 
-        return;
+        if (!e.key) {
+            e.key = String.fromCharCode(e.which).toLowerCase();
+        }
     }
 
     function bindControlKeys(e) {
-        if (!e.key) {
-            populateEventKey(e);
-        }
-
         switch (e.key) {
         case 's':
             e.preventDefault();
@@ -153,23 +162,23 @@ require([
     }
 
     function bindFunctionKeys(e) {
-        switch (e.charCode || e.keyCode) {
-        case keys.F8:
+        switch (e.key) {
+        case 'F8':
             e.preventDefault();
             escapeFullScreen();
             runQuery();
             break;
-        case keys.F9:
+        case 'F9':
             e.preventDefault();
             escapeFullScreen();
             openNewScratchPad();
             break;
-        case keys.F10:
+        case 'F10':
             e.preventDefault();
             escapeFullScreen();
             setFocusOnFileSearch();
             break;
-        case keys.ESCAPE:
+        case 'Esc':
             e.preventDefault();
             escapeFullScreen();
             break;
@@ -177,6 +186,8 @@ require([
     }
 
     on(document.body, 'keydown', function (e) {
+        populateEventKey(e);
+
         if (e.ctrlKey) {
             bindControlKeys(e);
             return;

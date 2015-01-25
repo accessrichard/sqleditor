@@ -137,3 +137,34 @@ pre, code {
     background-color: #ffffff;
     border: 0px;
 }
+
+#showDock {
+    background-color: #abd6ff;
+    border-radius: 2px 0 0 2px;
+    border: 1px solid gray;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    height: 60px;
+    left: -66px;
+    position: fixed;
+    top: 87px;
+    transition: right 0.15s ease-in-out 0s;
+    width: 80px;
+    z-index: 3000;
+    display: none;
+}
+
+#showDock:hover {
+    background-color: #fff;
+    cursor: pointer;
+}
+
+#showDockText {
+    font-size: 15px;
+    font-weight: bold;
+    color: black;
+    height: 43px;
+    left: 40px;
+    top: 7px;
+    position: absolute;
+    transform: rotate(90deg);
+}

@@ -322,12 +322,19 @@ define([
         },
 
         toggleExplorer: function () {
-            if (this.isExplorerVisible()) {
+            var isVisible = this.isExplorerVisible();
+            document.getElementById('showDock').style.display = isVisible ? 'block' : 'none';
+
+            if (isVisible) {
                 registry.byId('layoutBorderContainer').removeChild(registry.byId('leftAccordion'));
                 return;
             }
 
             registry.byId('layoutBorderContainer').addChild(registry.byId('leftAccordion'));
+        },
+
+        showExplorerOnClick: function () {
+            this.toggleExplorer();
         }
     });
 });

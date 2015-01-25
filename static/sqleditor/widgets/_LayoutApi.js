@@ -28,6 +28,9 @@ define([
         },
 
         buttonLinkClick: function () {
+        },
+
+        showExplorerOnClick: function () {
         }
 
     });

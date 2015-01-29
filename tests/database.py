@@ -59,7 +59,7 @@ class Mysql(unittest.TestCase):
 class PostgreSQL(unittest.TestCase):
 
     def setUp(self):
-        conn_str = "host='localhost' dbname='test' user='richie' password='p@ssrich'"
+        conn_str = "host='localhost' dbname='test' user='richie' password='password'"
         self.db = Db.get('postgresql', conn_str)
         self.drop_table()
         self.create_table()
